@@ -2,82 +2,102 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>默然的小站</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="默然的个人导航小站，快速前往云桌面、博客和 Games。">
+  <meta name="theme-color" content="#f6f7fb">
+  <meta property="og:title" content="默然的小站">
+  <meta property="og:description" content="心有猛虎，细嗅蔷薇。欢迎来到默然的个人导航小站。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tonychenn.cn/">
+  <link rel="canonical" href="https://tonychenn.cn/">
+  <link rel="icon" href="icon/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
+  <title>默然的小站</title>
 </head>
 <body>
-<h1>默然的小站</h1>
-<p>心有猛虎 & 细嗅蔷薇</p>
+  <div class="page-shell">
+    <header class="hero">
+      <p class="eyebrow" aria-hidden="true">PERSONAL PORTAL</p>
+      <h1>默然的小站</h1>
+      <p class="tagline">心有猛虎 <span aria-hidden="true">&amp;</span><span class="sr-only">，</span> 细嗅蔷薇</p>
+    </header>
 
+    <main class="portal" aria-label="站点导航">
+      <!--desktop-->
+      <a class="portal-card project-card desktop-card" href="https://desktop.tonychenn.cn/" target="_blank" rel="noopener noreferrer">
+        <span class="icon-wrap icon-wrap-blue" aria-hidden="true">
+          <img src="icon/desktop.svg" width="64" height="64" alt="">
+        </span>
+        <span class="card-copy">
+          <span class="card-title">云桌面</span>
+          <span class="card-description">随时连接工作空间</span>
+          <span class="sr-only">（在新标签页打开）</span>
+        </span>
+        <span class="card-arrow" aria-hidden="true">↗</span>
+      </a>
 
-<div class="container">
-  <!--desktop-->
-  <div class="icon-cell" onclick="window.open('https://desktop.tonychenn.cn/')">
-    <div class="icon-bg hvr-float" style="background-color: #0183fc;">
-      <img src="./icon/desktop.svg"/>
-    </div>
-    <div class="icon-name">云桌面</div>
+      <!--blog-->
+      <a class="portal-card project-card blog-card" href="https://blog.tonychenn.cn/" target="_blank" rel="noopener noreferrer">
+        <span class="icon-wrap icon-wrap-rose" aria-hidden="true">
+          <img src="icon/blog.svg" width="64" height="64" alt="">
+        </span>
+        <span class="card-copy">
+          <span class="card-title">博客</span>
+          <span class="card-description">记录思考与技术</span>
+          <span class="sr-only">（在新标签页打开）</span>
+        </span>
+        <span class="card-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <div class="portal-card scene-card garden-scene" aria-hidden="true">
+        <!--sun-->
+        <span class="scene-sun"></span>
+        <span class="scene-cloud scene-cloud-left"></span>
+        <span class="scene-cloud scene-cloud-right"></span>
+        <!--tree-->
+        <span class="tree tree-small"><span class="tree-crown"></span><span class="tree-trunk"></span></span>
+        <span class="tree tree-large"><span class="tree-crown"></span><span class="tree-trunk"></span></span>
+        <span class="scene-ground"></span>
+      </div>
+
+      <!--park-->
+      <div class="portal-card scene-card park-scene" aria-hidden="true">
+        <img src="icon/park.svg" width="360" height="160" alt="">
+      </div>
+
+      <!--cocos-editor-->
+      <a class="portal-card project-card cocos-editor-card" href="https://github.com/TonyChenn/CocosEditor-Releases" target="_blank" rel="noopener noreferrer">
+        <span class="icon-wrap icon-wrap-teal" aria-hidden="true">
+          <img src="icon/cocos-editor.svg" width="64" height="64" alt="">
+        </span>
+        <span class="card-copy">
+          <span class="card-title">CocosEditor</span>
+          <span class="card-description">Unity-style 的 Cocos2d-x 运行时编辑器</span>
+          <span class="sr-only">（在新标签页打开）</span>
+        </span>
+        <span class="card-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <!--games-->
+      <a class="portal-card project-card games-card" href="https://game.tonychenn.cn/" target="_blank" rel="noopener noreferrer">
+        <span class="icon-wrap icon-wrap-amber" aria-hidden="true">
+          <img src="icon/groot.svg" width="64" height="64" alt="">
+        </span>
+        <span class="card-copy">
+          <span class="card-title">Games</span>
+          <span class="card-description">轻松一下，玩点游戏</span>
+          <span class="sr-only">（在新标签页打开）</span>
+        </span>
+        <span class="card-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <!--waiting-->
+      <!--
+        #ffe60f
+        #fd7403
+        #363636
+      -->
+    </main>
   </div>
-
-  <!--blog-->
-  <div class="icon-cell" onclick="window.open('https://blog.tonychenn.cn/')">
-    <div class="icon-bg hvr-float" style="background-color: #ff2442;">
-      <img src="./icon/blog.svg"/>
-    </div>
-    <div class="icon-name">博客</div>
-  </div>
-
-  <div class="icon-cell icon-cell-row1-col2">
-    <div class="icon-bg hvr-float icon-bg-row1-col2" style="background-color: #ffffff;">
-      <!--sun-->
-      <svg id="svg-sun" viewBox="0 0 1024 1024" width="30" height="30">
-        <style type="text/css">#svg-sun{margin-top:-30px;animation:rotate 10s linear infinite;-webkit-animation:rotate 10s linear infinite}@keyframes rotate{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@-webkit-keyframes rotate{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}#svg-tree{margin-top:22px;padding-left:100px}</style>
-        <path d="M512 512m-224 0a224 224 0 1 0 448 0 224 224 0 1 0-448 0Z" fill="#FF934A"/>
-        <path d="M445.292 120.692C446.188 89.596 466.326 65.112 497.42 64.204 501.898 64.074 506.758 64 512 64c5.24 0 10.102 0.074 14.582 0.204 31.092 0.908 51.23 25.392 52.126 56.488 0.29 9.912 0.492 20.982 0.492 32.908 0 11.926-0.2 22.996-0.492 32.908-0.896 31.096-21.034 55.58-52.126 56.488-4.48 0.13-9.34 0.204-14.582 0.204-5.24 0-10.102-0.074-14.582-0.204-31.092-0.908-51.23-25.392-52.126-56.488A1121.37 1121.37 0 0 1 444.8 153.6c0-11.926 0.2-22.996 0.492-32.908zM445.292 903.308c0.896 31.096 21.034 55.58 52.126 56.488 4.48 0.13 9.34 0.204 14.582 0.204 5.24 0 10.102-0.074 14.582-0.204 31.092-0.908 51.23-25.392 52.126-56.488 0.29-9.912 0.492-20.982 0.492-32.908 0-11.926-0.2-22.996-0.492-32.908-0.896-31.096-21.034-55.58-52.126-56.488-4.48-0.13-9.34-0.204-14.582-0.204-5.24 0-10.102 0.074-14.582 0.204-31.092 0.908-51.23 25.392-52.126 56.488a1121.37 1121.37 0 0 0-0.492 32.908c0 11.926 0.2 22.996 0.492 32.908zM120.694 578.716C89.604 577.8 65.12 557.676 64.202 526.58 64.068 522.102 64 517.25 64 512s0.068-10.102 0.2-14.58c0.92-31.096 25.404-51.22 56.494-52.136a1122.992 1122.992 0 0 1 65.812 0c31.09 0.916 55.574 21.04 56.492 52.136 0.134 4.478 0.202 9.33 0.202 14.58s-0.068 10.102-0.2 14.58c-0.92 31.096-25.404 51.22-56.494 52.136a1122.992 1122.992 0 0 1-65.812 0zM903.306 578.716c31.09-0.916 55.574-21.04 56.492-52.136 0.134-4.478 0.202-9.33 0.202-14.58s-0.068-10.102-0.2-14.58c-0.92-31.096-25.404-51.22-56.494-52.136a1122.992 1122.992 0 0 0-65.812 0c-31.09 0.916-55.574 21.04-56.492 52.136-0.134 4.478-0.202 9.33-0.202 14.58s0.068 10.102 0.2 14.58c0.92 31.096 25.404 51.22 56.494 52.136a1122.992 1122.992 0 0 0 65.812 0zM188.12 282.48C166.792 259.842 163.7 228.3 185.048 205.67a471.58 471.58 0 0 1 10.17-10.456 486.64 486.64 0 0 1 10.46-10.166c22.624-21.346 54.164-18.264 76.788 3.078a1104.74 1104.74 0 0 1 23.632 22.928 1160.744 1160.744 0 0 1 22.914 23.612c21.348 22.636 24.44 54.18 3.092 76.808a599.97 599.97 0 0 1-10.17 10.454 486.64 486.64 0 0 1-10.46 10.166c-22.624 21.346-54.164 18.264-76.81-3.078a1106.878 1106.878 0 0 1-23.61-22.928 1171.416 1171.416 0 0 1-22.938-23.612zM741.532 835.872c22.624 21.34 54.164 24.424 76.788 3.08a486.64 486.64 0 0 0 10.46-10.168 471.58 471.58 0 0 0 10.17-10.456c21.348-22.628 18.256-54.172-3.068-76.806a1171.416 1171.416 0 0 0-22.938-23.612 1106.878 1106.878 0 0 0-23.61-22.928c-22.646-21.34-54.186-24.424-76.81-3.08a486.64 486.64 0 0 0-10.46 10.168 599.97 599.97 0 0 0-10.17 10.454c-21.346 22.63-18.256 54.172 3.092 76.808a1160.744 1160.744 0 0 0 22.914 23.612 1104.74 1104.74 0 0 0 23.632 22.928zM282.468 835.872c-22.624 21.34-54.164 24.424-76.788 3.08a486.64 486.64 0 0 1-10.46-10.168 471.58 471.58 0 0 1-10.17-10.456c-21.348-22.628-18.256-54.172 3.068-76.806a1171.416 1171.416 0 0 1 22.938-23.612 1106.878 1106.878 0 0 1 23.61-22.928c22.646-21.34 54.186-24.424 76.81-3.08a486.64 486.64 0 0 1 10.46 10.168 599.97 599.97 0 0 1 10.17 10.454c21.346 22.63 18.256 54.172-3.092 76.808a1160.744 1160.744 0 0 1-22.914 23.612 1104.74 1104.74 0 0 1-23.632 22.928zM835.88 282.48c21.326-22.636 24.418-54.18 3.07-76.808a471.58 471.58 0 0 0-10.17-10.456 486.64 486.64 0 0 0-10.46-10.166c-22.624-21.346-54.164-18.264-76.788 3.078a1104.74 1104.74 0 0 0-23.632 22.928 1160.744 1160.744 0 0 0-22.914 23.612c-21.348 22.636-24.44 54.18-3.092 76.808a599.97 599.97 0 0 0 10.17 10.454 486.64 486.64 0 0 0 10.46 10.166c22.624 21.346 54.164 18.264 76.81-3.078a1106.878 1106.878 0 0 0 23.61-22.928 1171.416 1171.416 0 0 0 22.938-23.612z" fill="#FCBF28"/>
-      </svg>
-      <!--tree-->
-      <svg id="svg-tree" viewBox="0 0 1024 1024" width="50" height="50">
-        <path d="M761.456 243.026C766.39 134.48 696.506 33.916 590.258 6.94c-100.908-25.618-202.69 23.29-250.8 112.668C214.06 144.57 107.842 242.134 75.29 378.374c-44.612 186.77 66.074 375.43 247.268 421.418 67.386 17.118 128.774-4.094 189.442-26.774 220.964 99.5 399.378-10.686 438.024-172.574 36.518-152.81-46.988-307.09-188.568-357.418z" fill="#9ED36A"/>
-        <path d="M761.456 243.026C766.39 134.48 696.506 33.916 590.258 6.94c-32.742-8.31-65.574-8.762-96.66-2.546 3.78 0.75 7.56 1.594 11.34 2.546 106.248 26.976 176.134 127.54 171.198 236.084 141.582 50.328 225.088 204.61 188.566 357.42-25.554 107.094-112.278 191.536-232.022 207.656 163.044 20.682 286.038-76.54 317.342-207.656 36.52-152.81-46.986-307.09-188.566-357.418z" fill="#FFFFFF" opacity=".2"/>
-        <path d="M523.746 659.148l-134.99-128.336c-8.528-8.124-22.056-7.782-30.148 0.764-8.122 8.53-7.778 22.042 0.75 30.162l134.99 128.336 29.398-30.926zM657.174 435.826c-6.81-9.622-20.12-11.902-29.708-5.092l-126.806 89.768 24.65 34.834 126.804-89.786c9.59-6.81 11.87-20.118 5.06-29.724z" fill="#7F4545"/>
-        <path d="M511.812 341.324c-11.778 0-21.338 9.544-21.338 21.322v661.204h42.642V362.644c0.002-11.776-9.526-21.32-21.304-21.32z" fill="#965353"/>
-        <path d="M575.792 981.206h-127.96c-11.81 0-21.338 9.53-21.338 21.306s9.528 21.336 21.338 21.336h127.96c11.778 0 21.336-9.558 21.336-21.336s-9.558-21.306-21.336-21.306z" fill="#424953"/>
-        <path d="M255.86 298.664c-11.778 0-21.338 9.544-21.338 21.322 0 11.778 9.56 21.336 21.338 21.336s21.336-9.56 21.336-21.336c0-11.778-9.56-21.322-21.336-21.322zM469.138 170.688c-11.778 0-21.306 9.544-21.306 21.322 0 11.792 9.528 21.336 21.306 21.336s21.336-9.544 21.336-21.336c0-11.778-9.558-21.322-21.336-21.322zM768.078 511.942c11.778 0 21.336-9.542 21.336-21.322 0-11.778-9.558-21.322-21.336-21.322s-21.338 9.544-21.338 21.322c0 11.78 9.56 21.322 21.338 21.322zM639.774 256.006c-11.778 0-21.338 9.544-21.338 21.322 0 11.792 9.56 21.336 21.338 21.336s21.336-9.544 21.336-21.336c0-11.778-9.56-21.322-21.336-21.322zM341.176 639.934c-11.778 0-21.336 9.56-21.336 21.338s9.56 21.306 21.336 21.306 21.336-9.53 21.336-21.306-9.558-21.338-21.336-21.338zM213.216 511.942c-11.808 0-21.336 9.56-21.336 21.336s9.528 21.338 21.336 21.338c11.746 0 21.306-9.56 21.306-21.338s-9.56-21.336-21.306-21.336zM383.82 384.154c-11.778 0-21.306 9.544-21.306 21.336 0 11.778 9.528 21.322 21.306 21.322s21.336-9.544 21.336-21.322c0.002-11.792-9.558-21.336-21.336-21.336zM639.774 554.618c-11.778 0-21.338 9.558-21.338 21.336s9.56 21.306 21.338 21.306 21.336-9.53 21.336-21.306-9.56-21.336-21.336-21.336zM768.078 639.934c-11.778 0-21.338 9.56-21.338 21.338s9.56 21.306 21.338 21.306 21.336-9.53 21.336-21.306-9.558-21.338-21.336-21.338z" fill="#EC5564"/>
-      </svg>
-    </div>
-    <div class="icon-name"></div>
-  </div>
-
-  <!--park-->
-  <div class="icon-cell icon-cell-row1-col2">
-    <div class="icon-bg hvr-float icon-bg-row1-col2" style="background-color: #ffffff;">
-      <img src="./icon/park.svg"/>
-    </div>
-    <div class="icon-name"></div>
-  </div>
-
-  <!--games-->
-  <div class="icon-cell" onclick="window.open('https://game.tonychenn.cn/')">
-    <div class="icon-bg hvr-float" style="background-color: #ffe60f;">
-      <img src="./icon/groot.svg"/>
-    </div>
-    <div class="icon-name">Games</div>
-  </div>
-
-  <!--waiting-->
-  <div class="icon-cell" onclick="">
-    <div class="icon-bg hvr-float" style="background-color: #fd7403;">
-      <img src="./icon/bubble.svg"/>
-    </div>
-    <div class="icon-name">敬请期待</div>
-  </div>
-  <!--
-    #ffe60f
-    #fd7403
-    #363636
-  -->
-
-</div>
 </body>
 </html>

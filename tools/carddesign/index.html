@@ -64,6 +64,7 @@
     .selected-controls { display: grid; gap: 12px; }
     .selected-title { color: #61718d; font-size: 13px; }
     .ad-container { width: 100%; min-height: 90px; margin-top: 24px; overflow: hidden; text-align: center; }
+    .page-footer { margin-top: 18px; color: #8490a3; font-size: 12px; text-align: center; font-variant-numeric: tabular-nums; }
     @media (max-width: 1180px) { .layout { grid-template-columns: 210px minmax(0, 1fr); grid-template-areas: "wallpapers preview" "wallpapers controls"; } .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } .section + .section { border-top: 0; padding-top: 0; } }
     @media (max-width: 860px) { .layout { grid-template-columns: 1fr; grid-template-areas: "wallpapers" "preview" "controls"; } .wallpaper-panel { position: static; max-height: 340px; } .wallpaper-list { grid-template-columns: repeat(3, minmax(145px, 1fr)); } .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 590px) { .app { padding: 20px 14px 32px; } h1 { font-size: 22px; } .layout { gap: 14px; } .wallpaper-list { grid-template-columns: repeat(2, minmax(130px, 1fr)); } .preview-panel { padding: 14px; } .controls { grid-template-columns: 1fr; padding: 18px; } .section + .section { border-top: 1px solid #edf0f5; padding-top: 18px; } .canvas-wrap { border-radius: 15px; } }
@@ -132,6 +133,7 @@
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
     </div>
+    <footer class="page-footer">访问次数：<span id="busuanzi_page_pv" aria-live="polite">加载中…</span></footer>
   </main>
   <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
@@ -521,6 +523,21 @@
         }
       }
 
+      function initializeVisitCounter() {
+        const value = document.getElementById('busuanzi_page_pv');
+        const isPublishedPage = /^https?:$/.test(location.protocol) && !['localhost', '127.0.0.1'].includes(location.hostname);
+        if (!isPublishedPage) {
+          value.textContent = '发布后生效';
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src = 'https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js';
+        script.defer = true;
+        script.onerror = () => { value.textContent = '暂不可用'; };
+        document.head.append(script);
+      }
+
       function addLogo(kind, image, url) {
         const logo = { id: state.nextId++, kind, x: state.width / 2, y: state.height / 2, size: kind === 'image' ? 150 : 110, color: '#ffffff', image, url };
         state.logos.push(logo);
@@ -699,6 +716,7 @@
 
       redraw();
       loadBingWallpapers();
+      initializeVisitCounter();
     })();
   </script>
 </body>

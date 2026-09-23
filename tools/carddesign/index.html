@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>卡面制作工具</title>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8181303774570877" crossorigin="anonymous"></script>
+  <style>
+    :root { color-scheme: light; font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; background: #f4f6fa; color: #192235; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .app { max-width: 1320px; margin: 0 auto; padding: 32px 24px 48px; }
+    header { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+    h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: .02em; }
+    .subtitle { margin: 0; color: #64718a; font-size: 14px; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) 316px; gap: 22px; align-items: start; }
+    .panel { background: #fff; border: 1px solid #e4e9f1; border-radius: 16px; box-shadow: 0 9px 32px #1b2e5b0b; }
+    .preview-panel { padding: 24px; }
+    .preview-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .preview-top strong { font-size: 16px; }
+    .size-tag { font-size: 12px; color: #63718a; background: #eef2f8; padding: 7px 10px; border-radius: 8px; }
+    .canvas-wrap { max-width: 900px; margin: 0 auto; border-radius: 26px; overflow: hidden; box-shadow: 0 23px 54px #1c2c5260; background: #e1e8f3; }
+    canvas { display: block; width: 100%; height: auto; touch-action: none; cursor: grab; }
+    canvas.dragging { cursor: grabbing; }
+    .hint { margin: 21px 0 0; text-align: center; color: #6e7b92; font-size: 13px; line-height: 1.7; }
+    .controls { padding: 22px; display: grid; gap: 22px; }
+    .section { display: grid; gap: 12px; }
+    .section + .section { border-top: 1px solid #edf0f5; padding-top: 20px; }
+    h2 { margin: 0; font-size: 15px; }
+    .button-row { display: flex; gap: 9px; }
+    .button-row > * { flex: 1; }
+    .btn { border: 1px solid #d9e1ed; border-radius: 9px; min-height: 39px; padding: 8px 12px; color: #24334c; background: #fff; font-weight: 600; text-align: center; }
+    .btn:hover { border-color: #6d87b8; background: #f7f9fd; }
+    .btn.active { border-color: #2f62be; color: #2456ad; background: #edf4ff; }
+    .btn.primary { border-color: #2659b6; color: #fff; background: #2659b6; }
+    .btn.primary:hover { background: #194da9; }
+    .btn:disabled { cursor: not-allowed; opacity: .48; }
+    .upload { display: block; }
+    .upload input { display: none; }
+    .upload .btn { display: block; }
+    label.field { display: grid; gap: 7px; font-size: 13px; color: #526079; }
+    .field[hidden] { display: none; }
+    .field-line { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .field-line output { font-variant-numeric: tabular-nums; color: #26354f; }
+    input[type="range"] { width: 100%; accent-color: #2659b6; }
+    input[type="number"], input[type="text"] { width: 100%; border: 1px solid #d9e1ed; border-radius: 9px; padding: 9px 11px; outline: none; }
+    input[type="number"]:focus, input[type="text"]:focus { border-color: #3972d2; }
+    input[type="color"] { width: 48px; height: 34px; padding: 2px; border: 1px solid #d9e1ed; border-radius: 7px; background: #fff; }
+    .muted { margin: 0; color: #8490a3; font-size: 12px; line-height: 1.55; }
+    .status { min-height: 18px; margin: 0; color: #345e9e; font-size: 12px; }
+    .selected-controls[hidden] { display: none; }
+    .selected-controls { display: grid; gap: 12px; }
+    .selected-title { color: #61718d; font-size: 13px; }
+    .ad-container { width: 100%; min-height: 90px; margin-top: 24px; overflow: hidden; text-align: center; }
+    @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } .section + .section { border-top: 0; padding-top: 0; } }
+    @media (max-width: 590px) { .app { padding: 20px 14px 32px; } h1 { font-size: 22px; } .layout { gap: 14px; } .preview-panel { padding: 14px; } .controls { grid-template-columns: 1fr; padding: 18px; } .section + .section { border-top: 1px solid #edf0f5; padding-top: 18px; } .canvas-wrap { border-radius: 15px; } }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <h1>卡面制作工具</h1>
+        <p class="subtitle">上传图片，调整卡面，导出无水印 PNG</p>
+      </div>
+    </header>
+    <div class="layout">
+      <section class="panel preview-panel" aria-label="卡面预览">
+        <div class="preview-top"><strong>实时预览</strong><span id="sizeTag" class="size-tag">900 × 567 px</span></div>
+        <div class="canvas-wrap"><canvas id="card" width="900" height="567" aria-label="卡面编辑画布"></canvas></div>
+        <p class="hint">拖动背景图片调整位置；点击文字或标志后可拖动和调整。圆角仅用于预览，导出为完整矩形图片。</p>
+      </section>
+      <aside class="panel controls" aria-label="编辑工具">
+        <div class="section">
+          <h2>1. 卡面尺寸</h2>
+          <div class="button-row">
+            <button id="bankSize" class="btn active" type="button">银行卡<br>900 × 567</button>
+            <button id="transitSize" class="btn" type="button">公交卡<br>960 × 606</button>
+          </div>
+          <p class="muted">尺寸是常见卡面图片预设；若目标应用有明确要求，请以它的要求为准。</p>
+        </div>
+        <div class="section">
+          <h2>2. 背景图片</h2>
+          <label class="upload"><input id="backgroundFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml,.svg"><span class="btn">上传背景图片</span></label>
+          <label class="field"><span class="field-line"><span>图片缩放</span><output id="zoomValue">100%</output></span><input id="zoom" type="range" min="1" max="4" step="0.01" value="1"></label>
+          <button id="resetBackground" class="btn" type="button">图片居中</button>
+        </div>
+        <div class="section">
+          <h2>3. 添加内容</h2>
+          <div class="button-row"><button id="addBus" class="btn" type="button">＋ 公交</button><button id="addMetro" class="btn" type="button">＋ 地铁</button></div>
+          <button id="addText" class="btn" type="button">＋ 添加文字</button>
+          <label class="upload"><input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml,.svg"><span class="btn">上传自备标志</span></label>
+          <div id="selectedControls" class="selected-controls" hidden>
+            <span id="selectedTitle" class="selected-title"></span>
+            <label id="textContentField" class="field" hidden><span>文字内容</span><input id="textContent" type="text" maxlength="80" value="我的卡面"></label>
+            <label class="field"><span class="field-line"><span id="sizeLabel">标志宽度</span><output id="logoSizeValue">100 px</output></span><input id="logoSize" type="range" min="30" max="360" step="1" value="100"></label>
+            <label id="iconColorField" class="field"><span class="field-line"><span id="colorLabel">图标颜色</span><input id="iconColor" type="color" value="#ffffff"></span></label>
+            <button id="removeLogo" class="btn" type="button">删除选中内容</button>
+          </div>
+        </div>
+        <div class="section">
+          <h2>4. 导出</h2>
+          <button id="exportPng" class="btn primary" type="button">下载 PNG</button>
+          <p id="status" class="status" role="status" aria-live="polite"></p>
+        </div>
+      </aside>
+    </div>
+    <div class="ad-container" aria-label="广告">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-8181303774570877"
+           data-ad-slot="6631963511"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+  </main>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  <script>
+    (() => {
+      const canvas = document.getElementById('card');
+      const context = canvas.getContext('2d');
+      const controls = {
+        sizeTag: document.getElementById('sizeTag'),
+        bankSize: document.getElementById('bankSize'),
+        transitSize: document.getElementById('transitSize'),
+        backgroundFile: document.getElementById('backgroundFile'),
+        logoFile: document.getElementById('logoFile'),
+        zoom: document.getElementById('zoom'),
+        zoomValue: document.getElementById('zoomValue'),
+        resetBackground: document.getElementById('resetBackground'),
+        addBus: document.getElementById('addBus'),
+        addMetro: document.getElementById('addMetro'),
+        addText: document.getElementById('addText'),
+        selectedControls: document.getElementById('selectedControls'),
+        selectedTitle: document.getElementById('selectedTitle'),
+        textContentField: document.getElementById('textContentField'),
+        textContent: document.getElementById('textContent'),
+        sizeLabel: document.getElementById('sizeLabel'),
+        logoSize: document.getElementById('logoSize'),
+        logoSizeValue: document.getElementById('logoSizeValue'),
+        iconColorField: document.getElementById('iconColorField'),
+        colorLabel: document.getElementById('colorLabel'),
+        iconColor: document.getElementById('iconColor'),
+        removeLogo: document.getElementById('removeLogo'),
+        exportPng: document.getElementById('exportPng'),
+        status: document.getElementById('status')
+      };
+      const state = {
+        width: 900, height: 567, background: null, backgroundUrl: null,
+        backgroundX: 0, backgroundY: 0, zoom: 1, logos: [], selectedId: null,
+        drag: null, nextId: 1
+      };
+
+      function showStatus(message) { controls.status.textContent = message; }
+
+      function imageSize(image) { return { width: Math.max(1, image.naturalWidth), height: Math.max(1, image.naturalHeight) }; }
+
+      function backgroundDimensions() {
+        if (!state.background) return null;
+        const source = imageSize(state.background);
+        const scale = Math.max(state.width / source.width, state.height / source.height) * state.zoom;
+        return { width: source.width * scale, height: source.height * scale };
+      }
+
+      function clampBackground() {
+        const size = backgroundDimensions();
+        if (!size) return;
+        const maxX = Math.max(0, (size.width - state.width) / 2);
+        const maxY = Math.max(0, (size.height - state.height) / 2);
+        state.backgroundX = Math.max(-maxX, Math.min(maxX, state.backgroundX));
+        state.backgroundY = Math.max(-maxY, Math.min(maxY, state.backgroundY));
+      }
+
+      function elementBounds(element, ctx = context) {
+        if (element.kind === 'text') {
+          ctx.save();
+          ctx.font = `600 ${element.size}px Microsoft YaHei, PingFang SC, sans-serif`;
+          const width = Math.max(12, ctx.measureText(element.text || '').width);
+          ctx.restore();
+          return { width, height: element.size * 1.25 };
+        }
+        if (element.kind === 'image') {
+          return { width: element.size, height: element.size * element.image.naturalHeight / element.image.naturalWidth };
+        }
+        return { width: element.size, height: element.size };
+      }
+
+      function drawBus(ctx, color) {
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+        ctx.lineWidth = 7;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.roundRect(-42, -30, 84, 57, 9);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(-39, 1); ctx.lineTo(39, 1);
+        ctx.moveTo(-12, -28); ctx.lineTo(-12, -1);
+        ctx.moveTo(19, -28); ctx.lineTo(19, -1);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(-25, 29, 7, 0, Math.PI * 2);
+        ctx.arc(25, 29, 7, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function drawMetro(ctx, color) {
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+        ctx.lineWidth = 7;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.roundRect(-34, -38, 68, 64, 16);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(-31, -6); ctx.lineTo(31, -6);
+        ctx.moveTo(-23, 29); ctx.lineTo(-32, 40);
+        ctx.moveTo(23, 29); ctx.lineTo(32, 40);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(-19, 12, 4, 0, Math.PI * 2);
+        ctx.arc(19, 12, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function drawLogo(ctx, logo) {
+        const bounds = elementBounds(logo, ctx);
+        if (logo.kind === 'image') {
+          ctx.drawImage(logo.image, logo.x - bounds.width / 2, logo.y - bounds.height / 2, bounds.width, bounds.height);
+          return;
+        }
+        if (logo.kind === 'text') {
+          ctx.save();
+          ctx.fillStyle = logo.color;
+          ctx.font = `600 ${logo.size}px Microsoft YaHei, PingFang SC, sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(logo.text, logo.x, logo.y);
+          ctx.restore();
+          return;
+        }
+        ctx.save();
+        ctx.translate(logo.x, logo.y);
+        ctx.scale(logo.size / 100, logo.size / 100);
+        if (logo.kind === 'bus') drawBus(ctx, logo.color);
+        else drawMetro(ctx, logo.color);
+        ctx.restore();
+      }
+
+      function render(ctx, includeSelection) {
+        ctx.clearRect(0, 0, state.width, state.height);
+        ctx.fillStyle = '#e2eaf5';
+        ctx.fillRect(0, 0, state.width, state.height);
+        if (state.background) {
+          const size = backgroundDimensions();
+          ctx.drawImage(state.background,
+            (state.width - size.width) / 2 + state.backgroundX,
+            (state.height - size.height) / 2 + state.backgroundY,
+            size.width, size.height);
+        } else if (includeSelection) {
+          ctx.fillStyle = '#8292a9';
+          ctx.textAlign = 'center';
+          ctx.font = '24px Microsoft YaHei, sans-serif';
+          ctx.fillText('上传图片，开始制作卡面', state.width / 2, state.height / 2);
+        }
+        for (const logo of state.logos) drawLogo(ctx, logo);
+        if (includeSelection) {
+          const logo = state.logos.find(item => item.id === state.selectedId);
+          if (logo) {
+            const bounds = elementBounds(logo, ctx);
+            ctx.strokeStyle = '#1769e8';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([9, 7]);
+            ctx.strokeRect(logo.x - bounds.width / 2 - 7, logo.y - bounds.height / 2 - 7, bounds.width + 14, bounds.height + 14);
+            ctx.setLineDash([]);
+          }
+        }
+      }
+
+      function redraw() { render(context, true); }
+
+      function updateSelection() {
+        const logo = state.logos.find(item => item.id === state.selectedId);
+        controls.selectedControls.hidden = !logo;
+        if (!logo) return;
+        const isText = logo.kind === 'text';
+        controls.selectedTitle.textContent = logo.kind === 'bus' ? '已选中：公交图标' : logo.kind === 'metro' ? '已选中：地铁图标' : isText ? '已选中：文字' : '已选中：自备标志';
+        controls.textContentField.hidden = !isText;
+        controls.textContent.value = isText ? logo.text : '';
+        controls.sizeLabel.textContent = isText ? '文字大小' : '标志宽度';
+        controls.logoSize.min = isText ? '16' : '30';
+        controls.logoSize.max = isText ? '160' : '360';
+        controls.logoSize.value = String(Math.round(logo.size));
+        controls.logoSizeValue.textContent = `${Math.round(logo.size)} px`;
+        controls.iconColorField.hidden = logo.kind === 'image';
+        controls.colorLabel.textContent = isText ? '文字颜色' : '图标颜色';
+        if (logo.color) controls.iconColor.value = logo.color;
+      }
+
+      function setSize(width, height) {
+        const oldWidth = state.width;
+        const oldHeight = state.height;
+        const sx = width / oldWidth;
+        const sy = height / oldHeight;
+        for (const logo of state.logos) {
+          logo.x *= sx;
+          logo.y *= sy;
+          logo.size *= sx;
+        }
+        state.backgroundX *= sx;
+        state.backgroundY *= sy;
+        state.width = width;
+        state.height = height;
+        canvas.width = width;
+        canvas.height = height;
+        controls.sizeTag.textContent = `${width} × ${height} px`;
+        controls.bankSize.classList.toggle('active', width === 900);
+        controls.transitSize.classList.toggle('active', width === 960);
+        clampBackground();
+        updateSelection();
+        redraw();
+      }
+
+      async function prepareImageFile(file) {
+        const extension = file.name.split('.').pop()?.toLowerCase();
+        const isSvg = file.type === 'image/svg+xml' || extension === 'svg';
+        if (!isSvg) return file;
+
+        const documentNode = new DOMParser().parseFromString(await file.text(), 'image/svg+xml');
+        if (documentNode.querySelector('parsererror') || documentNode.documentElement.localName !== 'svg') {
+          throw new Error('SVG 文件格式不正确。');
+        }
+
+        // SVG 以图片方式使用；移除可执行内容和外部资源，避免脚本运行或导出画布被污染。
+        documentNode.querySelectorAll('script, foreignObject').forEach(node => node.remove());
+        documentNode.querySelectorAll('*').forEach(node => {
+          for (const attribute of [...node.attributes]) {
+            const name = attribute.name.toLowerCase();
+            const value = attribute.value.trim();
+            if (name.startsWith('on')) node.removeAttribute(attribute.name);
+            if ((name === 'href' || name === 'xlink:href') && value && !value.startsWith('#') && !value.startsWith('data:image/')) {
+              node.removeAttribute(attribute.name);
+            }
+          }
+        });
+
+        const root = documentNode.documentElement;
+        if ((!root.hasAttribute('width') || !root.hasAttribute('height')) && root.hasAttribute('viewBox')) {
+          const values = root.getAttribute('viewBox').trim().split(/[ ,]+/).map(Number);
+          if (values.length === 4 && values.every(Number.isFinite) && values[2] > 0 && values[3] > 0) {
+            if (!root.hasAttribute('width')) root.setAttribute('width', String(values[2]));
+            if (!root.hasAttribute('height')) root.setAttribute('height', String(values[3]));
+          }
+        }
+        return new Blob([new XMLSerializer().serializeToString(documentNode)], { type: 'image/svg+xml' });
+      }
+
+      async function loadImage(file, callback) {
+        const extension = file?.name.split('.').pop()?.toLowerCase();
+        const allowed = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'].includes(file?.type) || extension === 'svg';
+        if (!file || !allowed) {
+          showStatus('请选择 PNG、JPG、WebP 或 SVG 图片。');
+          return;
+        }
+        let imageFile;
+        try {
+          imageFile = await prepareImageFile(file);
+        } catch (error) {
+          showStatus(error instanceof Error ? error.message : 'SVG 文件无法读取。');
+          return;
+        }
+        const url = URL.createObjectURL(imageFile);
+        const image = new Image();
+        image.onload = () => callback(image, url);
+        image.onerror = () => { URL.revokeObjectURL(url); showStatus('图片无法读取，请换一张。'); };
+        image.src = url;
+      }
+
+      function addLogo(kind, image, url) {
+        const logo = { id: state.nextId++, kind, x: state.width / 2, y: state.height / 2, size: kind === 'image' ? 150 : 110, color: '#ffffff', image, url };
+        state.logos.push(logo);
+        state.selectedId = logo.id;
+        updateSelection();
+        redraw();
+      }
+
+      function addText() {
+        const text = { id: state.nextId++, kind: 'text', x: state.width / 2, y: state.height / 2, size: 52, color: '#ffffff', text: '我的卡面' };
+        state.logos.push(text);
+        state.selectedId = text.id;
+        updateSelection();
+        redraw();
+        controls.textContent.focus();
+        controls.textContent.select();
+      }
+
+      function pointFromEvent(event) {
+        const rect = canvas.getBoundingClientRect();
+        return { x: (event.clientX - rect.left) * state.width / rect.width, y: (event.clientY - rect.top) * state.height / rect.height };
+      }
+
+      function logoAt(point) {
+        for (let i = state.logos.length - 1; i >= 0; i--) {
+          const logo = state.logos[i];
+          const bounds = elementBounds(logo);
+          if (Math.abs(point.x - logo.x) <= bounds.width / 2 + 8 && Math.abs(point.y - logo.y) <= bounds.height / 2 + 8) return logo;
+        }
+        return null;
+      }
+
+      controls.bankSize.addEventListener('click', () => setSize(900, 567));
+      controls.transitSize.addEventListener('click', () => setSize(960, 606));
+      controls.backgroundFile.addEventListener('change', event => {
+        loadImage(event.target.files[0], (image, url) => {
+          if (state.backgroundUrl) URL.revokeObjectURL(state.backgroundUrl);
+          state.background = image;
+          state.backgroundUrl = url;
+          state.backgroundX = 0;
+          state.backgroundY = 0;
+          state.zoom = 1;
+          state.selectedId = null;
+          controls.zoom.value = '1';
+          controls.zoomValue.textContent = '100%';
+          updateSelection();
+          redraw();
+          showStatus('背景图片已载入。');
+        });
+        event.target.value = '';
+      });
+      controls.logoFile.addEventListener('change', event => {
+        loadImage(event.target.files[0], (image, url) => { addLogo('image', image, url); showStatus('标志已添加，可在卡面上拖动。'); });
+        event.target.value = '';
+      });
+      controls.zoom.addEventListener('input', event => {
+        state.zoom = Number(event.target.value);
+        controls.zoomValue.textContent = `${Math.round(state.zoom * 100)}%`;
+        clampBackground();
+        redraw();
+      });
+      controls.resetBackground.addEventListener('click', () => {
+        state.backgroundX = 0;
+        state.backgroundY = 0;
+        state.zoom = 1;
+        controls.zoom.value = '1';
+        controls.zoomValue.textContent = '100%';
+        redraw();
+      });
+      controls.addBus.addEventListener('click', () => addLogo('bus'));
+      controls.addMetro.addEventListener('click', () => addLogo('metro'));
+      controls.addText.addEventListener('click', addText);
+      controls.textContent.addEventListener('input', event => {
+        const logo = state.logos.find(item => item.id === state.selectedId);
+        if (!logo || logo.kind !== 'text') return;
+        logo.text = event.target.value;
+        redraw();
+      });
+      controls.logoSize.addEventListener('input', event => {
+        const logo = state.logos.find(item => item.id === state.selectedId);
+        if (!logo) return;
+        logo.size = Number(event.target.value);
+        controls.logoSizeValue.textContent = `${Math.round(logo.size)} px`;
+        redraw();
+      });
+      controls.iconColor.addEventListener('input', event => {
+        const logo = state.logos.find(item => item.id === state.selectedId);
+        if (!logo || logo.kind === 'image') return;
+        logo.color = event.target.value;
+        redraw();
+      });
+      controls.removeLogo.addEventListener('click', () => {
+        const index = state.logos.findIndex(item => item.id === state.selectedId);
+        if (index < 0) return;
+        const [logo] = state.logos.splice(index, 1);
+        if (logo.url) URL.revokeObjectURL(logo.url);
+        state.selectedId = null;
+        updateSelection();
+        redraw();
+      });
+
+      canvas.addEventListener('pointerdown', event => {
+        const point = pointFromEvent(event);
+        const logo = logoAt(point);
+        state.selectedId = logo ? logo.id : null;
+        state.drag = { pointerId: event.pointerId, x: point.x, y: point.y, logoId: logo ? logo.id : null };
+        canvas.setPointerCapture(event.pointerId);
+        canvas.classList.add('dragging');
+        updateSelection();
+        redraw();
+      });
+      canvas.addEventListener('pointermove', event => {
+        if (!state.drag || state.drag.pointerId !== event.pointerId) return;
+        const point = pointFromEvent(event);
+        const dx = point.x - state.drag.x;
+        const dy = point.y - state.drag.y;
+        if (state.drag.logoId) {
+          const logo = state.logos.find(item => item.id === state.drag.logoId);
+          if (logo) {
+            logo.x = Math.max(0, Math.min(state.width, logo.x + dx));
+            logo.y = Math.max(0, Math.min(state.height, logo.y + dy));
+          }
+        } else if (state.background) {
+          state.backgroundX += dx;
+          state.backgroundY += dy;
+          clampBackground();
+        }
+        state.drag.x = point.x;
+        state.drag.y = point.y;
+        redraw();
+      });
+      function endDrag(event) {
+        if (state.drag && state.drag.pointerId === event.pointerId) {
+          state.drag = null;
+          canvas.classList.remove('dragging');
+        }
+      }
+      canvas.addEventListener('pointerup', endDrag);
+      canvas.addEventListener('pointercancel', endDrag);
+      canvas.addEventListener('wheel', event => {
+        if (!state.background) return;
+        event.preventDefault();
+        state.zoom = Math.max(1, Math.min(4, state.zoom + (event.deltaY < 0 ? 0.05 : -0.05)));
+        controls.zoom.value = String(state.zoom);
+        controls.zoomValue.textContent = `${Math.round(state.zoom * 100)}%`;
+        clampBackground();
+        redraw();
+      }, { passive: false });
+      document.addEventListener('keydown', event => {
+        if ((event.key === 'Delete' || event.key === 'Backspace') && state.selectedId && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+          event.preventDefault();
+          controls.removeLogo.click();
+        }
+      });
+
+      controls.exportPng.addEventListener('click', () => {
+        if (!state.background) { showStatus('请先上传背景图片。'); return; }
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = state.width;
+        exportCanvas.height = state.height;
+        render(exportCanvas.getContext('2d'), false);
+        try {
+          exportCanvas.toBlob(blob => {
+            if (!blob) { showStatus('导出失败，请重试。'); return; }
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `卡面-${state.width}x${state.height}.png`;
+            document.body.append(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 60000);
+            showStatus(`已导出 ${state.width} × ${state.height} PNG。`);
+          }, 'image/png');
+        } catch (error) {
+          showStatus('导出失败：SVG 中可能包含浏览器不允许导出的外部资源。');
+        }
+      });
+
+      redraw();
+    })();
+  </script>
+</body>
+</html>

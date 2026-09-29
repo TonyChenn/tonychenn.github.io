@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CocosEditor - Runtime Editor &amp; Inspector for Cocos2d-x</title>
+  <meta name="description" content="CocosEditor is a runtime editor and debugging tool for Cocos2d-x. Inspect the live scene hierarchy, edit component properties, debug UI, view logs, and connect AI tools through MCP.">
+  <meta name="theme-color" content="#0d1118">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://tonychenn.cn/cocoseditor/">
+  <link rel="alternate" hreflang="en" href="https://tonychenn.cn/cocoseditor/">
+  <link rel="alternate" hreflang="zh-CN" href="https://tonychenn.cn/zh/cocoseditor/">
+  <link rel="alternate" hreflang="x-default" href="https://tonychenn.cn/cocoseditor/">
+  <link rel="icon" href="/icon/cocos-editor.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/cocoseditor/assets/site.css">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CocosEditor">
+  <meta property="og:title" content="CocosEditor - Runtime Editor &amp; Inspector for Cocos2d-x">
+  <meta property="og:description" content="Inspect. Edit. Debug. While your game is running. Explore live nodes, edit properties, inspect logs, and connect AI tools through MCP.">
+  <meta property="og:url" content="https://tonychenn.cn/cocoseditor/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:image" content="https://tonychenn.cn/cocoseditor/assets/editor-overview.webp">
+  <meta property="og:image:width" content="1858">
+  <meta property="og:image:height" content="1080">
+  <meta property="og:image:alt" content="CocosEditor connected to a running game, with Game, Hierarchy, Inspector, Assets, and Logs panels">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CocosEditor - Runtime Editor for Cocos2d-x">
+  <meta name="twitter:description" content="Inspect the live scene. Edit supported properties. Debug your Cocos2d-x game at runtime.">
+  <meta name="twitter:image" content="https://tonychenn.cn/cocoseditor/assets/editor-overview.webp">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CocosEditor",
+    "alternateName": "Cocos2d-x Runtime Editor",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Windows 10 1809 or later (x86 / x64)",
+    "softwareRequirements": ".NET 10 Desktop Runtime matching the editor architecture (x86 / x64); version-matched CocosEditor Runtime SDK for Windows x86 / x64 or Android ARM64",
+    "url": "https://tonychenn.cn/cocoseditor/",
+    "description": "A runtime editor and debugging tool for Cocos2d-x, with live hierarchy inspection, supported component property editing, assets, logs, and MCP integration.",
+    "screenshot": "https://tonychenn.cn/cocoseditor/assets/editor-overview.webp",
+    "inLanguage": "en",
+    "author": { "@type": "Person", "name": "TonyChenn" },
+    "sameAs": "https://github.com/TonyChenn/CocosEditor-Releases"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/cocoseditor/" aria-label="CocosEditor home"><img src="/icon/cocos-editor.svg" width="34" height="34" alt="">CocosEditor</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#features">Features</a><a href="#mcp" class="nav-optional">MCP</a><a href="#documentation">Documentation</a><a href="#download">Get CocosEditor</a>
+      </nav>
+      <nav class="languages" aria-label="Language">
+        <a href="/cocoseditor/" lang="en" hreflang="en" aria-current="page">English</a><span aria-hidden="true">|</span><a href="/zh/cocoseditor/" lang="zh-CN" hreflang="zh-CN">中文</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div>
+          <p class="eyebrow">Runtime Editor for Cocos2d-x</p>
+          <p class="hero-name">CocosEditor</p>
+          <h1 id="hero-title">Cocos2d-x Runtime Editor</h1>
+        </div>
+        <div>
+          <p class="hero-tagline">Inspect. Edit. Debug.<br>While your game is running.</p>
+          <p class="hero-description">CocosEditor is a runtime editor and debugging tool for Cocos2d-x. Make UI adjustments and diagnose runtime problems without repeatedly rebuilding or restarting the game.</p>
+          <div class="actions"><a class="button button-primary" href="#download">Get CocosEditor <span aria-hidden="true">→</span></a><a class="button" href="https://github.com/TonyChenn/CocosEditor-Releases">View on GitHub <span aria-hidden="true">↗</span></a><a class="text-link" href="#documentation">Documentation</a></div>
+          <p class="hero-platform">Windows x86 / x64 editor · Runtime SDK integration required</p>
+        </div>
+      </div>
+      <figure class="workspace">
+        <div class="image-shell"><a href="/cocoseditor/assets/editor-overview.webp" aria-label="Open the full-size CocosEditor screenshot"><img src="/cocoseditor/assets/editor-overview.webp" width="1858" height="1080" fetchpriority="high" alt="CocosEditor workspace with a running game, a selected UI node in Hierarchy, editable properties in Inspector, Assets, and Logs"></a></div>
+        <figcaption><span>Actual editor screenshot · Game / Hierarchy / Inspector / Assets / Logs</span><span class="live-indicator">Connected to a running game</span></figcaption>
+      </figure>
+      <p class="intro">Connect it to a running game to inspect the live scene hierarchy, select nodes, edit component properties in real time, browse assets, inspect logs, and expose runtime capabilities to AI tools through MCP.</p>
+    </section>
+
+    <section class="section wrap" id="why" aria-labelledby="why-title">
+      <div class="section-heading"><p class="eyebrow">Why CocosEditor</p><h2 id="why-title">Spend less time repeating.<br>More time getting it right.</h2><p class="section-description">A small UI adjustment should not send you through the whole development loop again. Connect to the game you already have running and work with its actual state.</p></div>
+      <div class="workflow">
+        <div class="workflow-card"><p class="workflow-label">The usual iteration loop</p><ol class="workflow-steps"><li>Change code</li><li>Build</li><li>Launch</li><li>Navigate</li><li>Check</li><li>Repeat</li></ol><p>Repeat the setup for every position, size, or visibility adjustment.</p></div>
+        <div class="workflow-card is-live"><p class="workflow-label">With CocosEditor</p><ol class="workflow-steps"><li>Connect</li><li>Inspect</li><li>Edit</li><li>See the result immediately</li></ol><p>Get immediate feedback on supported properties in the current session.</p></div>
+      </div>
+    </section>
+
+    <section class="section wrap feature" id="features" aria-labelledby="hierarchy-title">
+      <div class="feature-copy"><p class="eyebrow">01 / Live Hierarchy</p><h2 id="hierarchy-title">Inspect the Live Scene Hierarchy</h2><p class="feature-lead">Explore the actual node hierarchy of the running game.</p><p>Find UI nodes, follow parent-child relationships, and investigate unexpected nesting or draw order. See the current Cocos2d-x hierarchy directly instead of inferring it from code.</p><p>Select a node in Game or Hierarchy and inspect the same selection in Inspector.</p></div>
+      <figure class="feature-figure"><div class="image-shell"><div class="panel-crop hierarchy-crop"><img src="/cocoseditor/assets/editor-overview.webp" width="1858" height="1080" loading="lazy" decoding="async" alt="Actual Hierarchy panel showing the Tanzaku node tree and a selected Button node"></div></div><figcaption>Hierarchy detail from the editor screenshot above.</figcaption></figure>
+    </section>
+
+    <section class="section wrap feature reverse" id="inspector" aria-labelledby="inspector-title">
+      <figure class="feature-figure"><div class="image-shell"><div class="panel-crop inspector-crop"><img src="/cocoseditor/assets/editor-overview.webp" width="1858" height="1080" loading="lazy" decoding="async" alt="Actual Cocos2d-x Inspector showing Node, Transform, and Widget properties, including position, size, visibility, and scale"></div></div><figcaption>Inspector detail for the selected node in the running game.</figcaption></figure>
+      <div class="feature-copy"><p class="eyebrow">02 / Runtime Inspector</p><h2 id="inspector-title">Edit Properties in Real Time</h2><p class="feature-lead">Select a node and inspect or modify supported component properties while the game is running.</p><p>Use the Cocos2d-x inspector to adjust exposed values such as position, size, scale, visibility, color, and text. Supported edits apply to the live node and are reflected in Game.</p><div class="feedback-pills"><span>No rebuild.</span><span>No restart.</span><span>Immediate feedback.</span></div><div class="result-note"><strong>Inspector → Game</strong><span>Change a supported value and observe the selected node in the live Game view shown above.</span></div><p class="download-note">Runtime edits affect the current session. They do not automatically save back to your source code or CSB/CSD files.</p></div>
+    </section>
+
+    <section class="section wrap" id="debugging" aria-labelledby="debugging-title">
+      <div class="section-heading"><p class="eyebrow">03 / Runtime Debugging</p><h2 id="debugging-title">Keep the runtime in view.</h2><p class="section-description">A focused Cocos2d-x debugging tool for everyday development. Use it as a Cocos2d-x UI editor during a running session and correlate the screen, nodes, properties, resources, and logs.</p></div>
+      <div class="capabilities">
+        <article class="capability"><p class="capability-number">01 / UI</p><h3>Position &amp; size adjustment</h3><p>Fine-tune exposed layout properties and see the result in the running game.</p></article>
+        <article class="capability"><p class="capability-number">02 / HIERARCHY</p><h3>Node hierarchy inspection</h3><p>Find live nodes and trace the parent-child relationships behind the screen.</p></article>
+        <article class="capability"><p class="capability-number">03 / INSPECTOR</p><h3>Component properties</h3><p>Inspect the selected node and edit the properties exposed by its runtime integration.</p></article>
+        <article class="capability"><p class="capability-number">04 / STATE</p><h3>Runtime state debugging</h3><p>Check live visibility, transforms, and supported values when the game behaves unexpectedly.</p></article>
+        <article class="capability"><p class="capability-number">05 / ASSETS</p><h3>Asset browsing</h3><p>Browse and find project resources in the Assets panel alongside the Game view.</p></article>
+        <article class="capability"><p class="capability-number">06 / LOGS</p><h3>Log inspection</h3><p>Follow editor and runtime output with search, channel filters, and severity filters.</p></article>
+      </div>
+    </section>
+
+    <section class="section wrap mcp-layout" id="mcp" aria-labelledby="mcp-title">
+      <div class="section-heading"><p class="eyebrow">04 / MCP &amp; AI Integration</p><h2 id="mcp-title">Connect AI to Your Running Game</h2><p class="section-description">CocosEditor exposes runtime capabilities through MCP, allowing compatible AI clients and development tools to inspect and interact with the running game.</p><p class="section-description">Use Cocos2d-x MCP tools to locate nodes, inspect supported properties, and assist with Cocos2d-x runtime debugging. Available operations depend on the connected runtime and its advertised capabilities.</p><div class="actions"><a class="text-link" href="https://github.com/TonyChenn/CocosEditor-Releases/blob/master/docs/mcp-api.md">Read the MCP API reference <span aria-hidden="true">↗</span></a></div></div>
+      <ol class="mcp-flow" aria-label="Connection flow from an AI client through MCP and CocosEditor to the running game"><li class="flow-node">AI Client<small>Compatible clients &amp; development tools</small></li><li class="flow-connector" aria-hidden="true">↓ MCP</li><li class="flow-node editor">CocosEditor</li><li class="flow-connector" aria-hidden="true">↓ Runtime SDK</li><li class="flow-node">Running Cocos2d-x Game<small>Live nodes · Supported properties · Runtime feedback</small></li></ol>
+    </section>
+
+    <section class="section wrap" id="how-it-works" aria-labelledby="how-title">
+      <div class="section-heading"><p class="eyebrow">How It Works</p><h2 id="how-title">Three steps to the live scene.</h2><p class="section-description">Integrate the SDK, configure the game path in CocosEditor, and mount the game to use Hierarchy, Inspector, Logs, and supported MCP capabilities.</p></div>
+      <ol class="steps"><li><span class="step-index" aria-hidden="true">1</span><h3>Integrate the CocosEditor Runtime SDK</h3><p>Use a version-matched SDK and the guide for your target platform. Native integration is required for both C++ and Lua projects.</p></li><li><span class="step-index" aria-hidden="true">2</span><h3>Launch CocosEditor and configure the game path</h3><p>Open CocosEditor and set the path for your SDK-integrated game.</p></li><li><span class="step-index" aria-hidden="true">3</span><h3>Mount the game in one click</h3><p>Mount the configured game from CocosEditor, then inspect live nodes, edit supported properties, and view logs.</p></li></ol>
+      <div class="docs" id="documentation"><h3>Documentation</h3><div class="docs-links"><a href="https://github.com/TonyChenn/CocosEditor-Releases/blob/master/skills/integrate-cocos-runtime-editor-sdk/references/integration-guide.md">Windows SDK integration guide (中文) <span aria-hidden="true">↗</span></a><a href="https://github.com/TonyChenn/CocosEditor-Releases/blob/master/docs/android-runtime-editor.md">Android SDK integration guide <span aria-hidden="true">↗</span></a><a href="https://github.com/TonyChenn/CocosEditor-Releases/blob/master/docs/mcp-api.md">MCP API reference <span aria-hidden="true">↗</span></a></div></div>
+    </section>
+
+    <section class="section wrap" id="environment" aria-labelledby="environment-title">
+      <div class="section-heading"><p class="eyebrow">Supported Environment</p><h2 id="environment-title">Check your setup.</h2><p class="section-description">The desktop editor and the game runtime have separate requirements. Check SDK compatibility before integrating.</p></div>
+      <dl class="environment">
+        <div><dt>Desktop editor</dt><dd>Windows x86 / x64<small>Windows 10 1809 (Build 17763) or later. Choose the editor architecture for your environment.</small></dd></div>
+        <div><dt>Desktop prerequisite</dt><dd>.NET 10 Desktop Runtime x86 / x64<small>Use the runtime matching the editor architecture. <a href="https://dotnet.microsoft.com/download/dotnet/10.0">Get it from Microsoft</a>.</small></dd></div>
+        <div><dt>Windows game runtime</dt><dd>Windows x86 / x64<small>Cocos2d-x 3.9 runtime adapter. Use the SDK matching the game architecture; other engine versions require a compatibility review.</small></dd></div>
+        <div><dt>Project languages</dt><dd>C++ / Lua<small>Inspect native Cocos nodes and exposed component properties. Lua projects also need the native Runtime SDK integration.</small></dd></div>
+        <div><dt>Android game runtime</dt><dd>Android ARM64 · Debug only · API 23+<small>Requires a matching SDK source module, Gradle / ndk-build, ADB, and scrcpy. No standalone Android SDK download is currently listed.</small></dd></div>
+        <div><dt>Integration requirement</dt><dd>Version-matched Runtime SDK<small>Use the SDK for your game platform and architecture, with exactly the same editor version. The editor and game have separate architecture requirements.</small></dd></div>
+      </dl>
+    </section>
+
+    <section class="section wrap" id="download" aria-labelledby="download-title">
+      <div class="download-card">
+        <div><p class="eyebrow">Get CocosEditor</p><h2 id="download-title">Bring your game<br>into focus.</h2><p>There is no public installation package yet. Contact the author by email to request the Windows x86 or x64 editor and a version-matched Runtime SDK.</p><span class="download-status">Windows x86 / x64 · Contact by email for access</span><div class="actions"><a class="button button-primary" href="mailto:email@tonychenn.cn?subject=CocosEditor%20access%20request">Contact by email <span aria-hidden="true">↗</span></a></div><p class="download-note">Include your Cocos2d-x version, whether your project uses C++ or Lua, and your game's target platform and architecture.</p></div>
+        <div><h3>Contact the author</h3><dl class="contact-emails"><div><dt>Email</dt><dd><a href="mailto:email@tonychenn.cn?subject=CocosEditor%20access%20request">email@tonychenn.cn</a></dd></div><div><dt>Alternative email</dt><dd><a href="mailto:gogle.huiy@gmail.com?subject=CocosEditor%20access%20request">gogle.huiy@gmail.com</a></dd></div></dl><p class="download-note">Ask about package availability and SDK compatibility for your project. GitHub remains the home for technical documentation, issue tracking, and version history.</p><div class="download-links"><a href="https://github.com/TonyChenn/CocosEditor-Releases/releases">Release Notes</a><a href="https://github.com/TonyChenn/CocosEditor-Releases/releases">GitHub Releases</a><a href="#documentation">Documentation</a><a href="https://github.com/TonyChenn/CocosEditor-Releases">GitHub Repository</a></div></div>
+      </div>
+    </section>
+
+    <section class="section wrap faq-layout" id="faq" aria-labelledby="faq-title">
+      <div class="section-heading"><p class="eyebrow">FAQ</p><h2 id="faq-title">Before you connect.</h2><p class="section-description">A runtime view of your game, with a clear boundary between live edits and your project files.</p></div>
+      <div class="faq-list">
+        <details open><summary>What is CocosEditor?</summary><p>CocosEditor is a runtime editor and debugging tool for Cocos2d-x. It connects to an SDK-integrated game to inspect the live hierarchy, edit supported component properties, browse assets, inspect logs, and expose supported runtime capabilities through MCP.</p></details>
+        <details><summary>Does CocosEditor modify my Cocos2d-x project?</summary><p>Initial Runtime SDK integration requires native project configuration and lifecycle integration. Once connected, Hierarchy and Inspector operate on the running game's state. Runtime property edits do not automatically rewrite your project source or scene resource files.</p></details>
+        <details><summary>Does it require an SDK integration?</summary><p>Yes. The game must integrate the CocosEditor Runtime SDK for its target platform, with a version matching the editor. This requirement applies to C++ and Lua projects.</p></details>
+        <details><summary>Can runtime changes be saved back to the project?</summary><p>Runtime changes are not automatically written back to Cocos2d-x project source code, CSB files, CSD files, or other scene resources. Treat Inspector edits as changes to the current running session. Apply the final values in your own code or resource authoring workflow when you want them to persist.</p></details>
+        <details><summary>Does it support Lua projects?</summary><p>Yes, for compatible Cocos2d-x projects with native Runtime SDK integration. You can inspect live Cocos nodes and supported component properties, including nodes created by Lua. This is not a promise of arbitrary Lua variable inspection or a full Lua source debugger.</p></details>
+        <details><summary>What is MCP integration?</summary><p>MCP stands for Model Context Protocol. CocosEditor exposes tools that compatible AI clients can use to inspect and interact with the connected runtime. It assists development and debugging; available tools depend on the runtime's supported capabilities. See the <a href="https://github.com/TonyChenn/CocosEditor-Releases/blob/master/docs/mcp-api.md">MCP API reference</a> for configuration and operation details.</p></details>
+        <details><summary>How can I get CocosEditor?</summary><p>There is no public installation package yet. Email <a href="mailto:email@tonychenn.cn?subject=CocosEditor%20access%20request">email@tonychenn.cn</a> or <a href="mailto:gogle.huiy@gmail.com?subject=CocosEditor%20access%20request">gogle.huiy@gmail.com</a> to request the editor and a version-matched Runtime SDK. Include your engine version, project language, and target platform.</p></details>
+        <details><summary>Is CocosEditor free?</summary><p>Use of CocosEditor and its SDKs is governed by the license terms or end-user license agreement included with each release. Review those terms before use. The GitHub repository distributes releases and documentation; it is not an open-source repository for the editor's source code.</p></details>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><p>CocosEditor · Runtime Editor for Cocos2d-x · By TonyChenn</p><nav class="footer-links" aria-label="Footer"><a href="https://github.com/TonyChenn/CocosEditor-Releases/issues">Report an issue</a><a href="https://github.com/TonyChenn/CocosEditor-Releases">GitHub</a><a href="/">TonyChenn</a></nav></div></footer>
+</body>
+</html>

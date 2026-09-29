@@ -12,14 +12,14 @@
     :root { color-scheme: light; font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; background: #f4f6fa; color: #192235; }
     * { box-sizing: border-box; }
     body { margin: 0; }
-    button, input { font: inherit; }
+    button, input, select { font: inherit; }
     button { cursor: pointer; }
     .app { max-width: 1600px; margin: 0 auto; padding: 32px 24px 48px; }
     header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
     h1 { margin: 0; font-size: 28px; letter-spacing: .02em; }
     .page-description { margin: 10px 0 0; max-width: 960px; color: #63718a; font-size: 14px; line-height: 1.7; }
-    .language-toggle { flex-shrink: 0; min-width: 92px; border: 1px solid #cfd8e7; border-radius: 999px; padding: 8px 15px; color: #31527f; background: #fff; font-weight: 600; }
-    .language-toggle:hover { border-color: #6d87b8; background: #f7f9fd; }
+    .language-select { flex-shrink: 0; min-width: 112px; border: 1px solid #cfd8e7; border-radius: 999px; padding: 8px 15px; color: #31527f; background: #fff; font-weight: 600; cursor: pointer; }
+    .language-select:hover { border-color: #6d87b8; background: #f7f9fd; }
     .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr) 316px; grid-template-areas: "wallpapers preview controls"; gap: 22px; align-items: start; }
     .panel { background: #fff; border: 1px solid #e4e9f1; border-radius: 16px; box-shadow: 0 9px 32px #1b2e5b0b; }
     .wallpaper-panel { grid-area: wallpapers; position: sticky; top: 18px; max-height: calc(100vh - 36px); padding: 16px 12px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
@@ -88,7 +88,11 @@
         <h1 data-i18n="pageTitle">在线卡面制作工具</h1>
         <p class="page-description" data-i18n="pageDescription">在线制作 Apple Pay、银行卡和交通卡自定义卡面，支持上传背景、添加 Logo 和文字，导出高清 PNG。图片仅在浏览器本地处理。</p>
       </div>
-      <button id="languageToggle" class="language-toggle" type="button" aria-label="Switch to English">English</button>
+      <select id="languageSelect" class="language-select" aria-label="界面语言" data-i18n-aria-label="languageSelectAria">
+        <option value="zh" lang="zh-CN">中文</option>
+        <option value="en" lang="en">English</option>
+        <option value="ja" lang="ja">日本語</option>
+      </select>
     </header>
     <div class="layout">
       <aside class="panel wallpaper-panel" aria-label="Bing 壁纸列表" data-i18n-aria-label="wallpaperPanelAria">
@@ -162,7 +166,7 @@
     (() => {
       const messages = {
         zh: {
-          documentTitle: 'Apple Pay 卡面制作工具 - 在线自定义银行卡/交通卡卡面 | CardDesign', pageTitle: '在线卡面制作工具', languageToggle: 'English', languageToggleAria: 'Switch to English',
+          documentTitle: 'Apple Pay 卡面制作工具 - 在线自定义银行卡/交通卡卡面 | CardDesign', pageTitle: '在线卡面制作工具', languageSelectAria: '界面语言',
           pageDescription: '在线制作 Apple Pay、银行卡和交通卡自定义卡面，支持上传背景、添加 Logo 和文字，导出高清 PNG。图片仅在浏览器本地处理。',
           wallpaperPanelAria: 'Bing 壁纸列表', bingWallpapers: 'Bing 壁纸', chinaRegion: '中国区', chooseBackgroundAria: '选择卡片背景', loadingWallpapers: '正在载入壁纸列表…',
           previewPanelAria: '卡面预览', livePreview: '实时预览', canvasAria: '卡面编辑画布', canvasHint: '拖动背景图片调整位置，手机上可双指缩放；点击文字或标志后可拖动和调整。圆角仅用于预览，导出为完整矩形图片。', editingToolsAria: '编辑工具',
@@ -183,7 +187,7 @@
           uploadFirst: '请先上传背景图片。', exportFailed: '导出失败，请重试。', exported: '已导出 {width} × {height} PNG。', exportSvgFailed: '导出失败：SVG 中可能包含浏览器不允许导出的外部资源。', exportFilename: '卡面-{width}x{height}.png'
         },
         en: {
-          documentTitle: 'Apple Pay Card Designer - Customize Bank & Transit Card Designs Online | CardDesign', pageTitle: 'Online Card Designer', languageToggle: '中文', languageToggleAria: '切换到中文',
+          documentTitle: 'Apple Pay Card Designer - Customize Bank & Transit Card Designs Online | CardDesign', pageTitle: 'Online Card Designer', languageSelectAria: 'Interface language',
           pageDescription: 'Create custom Apple Pay, bank and transit card designs online. Upload backgrounds, add logos and text, and export high-resolution PNG images. Images are processed locally in your browser.',
           wallpaperPanelAria: 'Bing wallpaper list', bingWallpapers: 'Bing Wallpapers', chinaRegion: 'China', chooseBackgroundAria: 'Choose a card background', loadingWallpapers: 'Loading wallpapers…',
           previewPanelAria: 'Card preview', livePreview: 'Live Preview', canvasAria: 'Card editing canvas', canvasHint: 'Drag the background to reposition it; pinch with two fingers to zoom on mobile. Select text or a logo to move and adjust it. Rounded corners are preview-only; exports are full rectangular images.', editingToolsAria: 'Editing tools',
@@ -202,18 +206,42 @@
           wallpaperListFailed: 'The wallpaper list failed to load. Refresh the page or upload an image.', wallpaperListFailedCredit: 'The Bing wallpaper list failed to load; you can still upload an image.', wallpaperListFailedStatus: 'The Bing wallpaper list failed to load. You can upload an image instead.', wallpaperListReadFailed: 'Failed to read the wallpaper list', wallpaperListEmpty: 'The wallpaper list is empty',
           wallpaperAlt: '{date} Bing wallpaper', publishedOnly: 'Available after publishing', unavailable: 'Unavailable', backgroundLoaded: 'Background image loaded.', logoAdded: 'Logo added. Drag it on the card to reposition it.',
           uploadFirst: 'Upload a background image first.', exportFailed: 'Export failed. Try again.', exported: 'Exported a {width} × {height} PNG.', exportSvgFailed: 'Export failed: the SVG may contain external resources that the browser does not allow.', exportFilename: 'card-{width}x{height}.png'
+        },
+        ja: {
+          documentTitle: 'Apple Pay カードデザインツール - 銀行カード・交通系ICカードをオンラインでカスタマイズ | CardDesign', pageTitle: 'オンラインカードデザインツール', languageSelectAria: '表示言語',
+          pageDescription: 'Apple Pay、銀行カード、交通系ICカードのオリジナルデザインをオンラインで作成。背景画像のアップロード、ロゴやテキストの追加、高解像度PNGの書き出しに対応。画像はブラウザー内でのみ処理されます。',
+          wallpaperPanelAria: 'Bing 壁紙一覧', bingWallpapers: 'Bing 壁紙', chinaRegion: '中国版', chooseBackgroundAria: 'カードの背景を選択', loadingWallpapers: '壁紙一覧を読み込み中…',
+          previewPanelAria: 'カードのプレビュー', livePreview: 'プレビュー', canvasAria: 'カード編集キャンバス', canvasHint: '背景画像をドラッグして位置を調整できます。スマートフォンでは2本の指で拡大・縮小できます。テキストやロゴを選択すると、移動や調整ができます。角丸はプレビューのみで、書き出す画像は長方形です。', editingToolsAria: '編集ツール',
+          sectionSize: '1. カードサイズ', walletSize: 'Apple Wallet / Apple Pay<br>1536 × 969', bankSize: '銀行カード<br>900 × 567', transitSize: '交通系ICカード<br>960 × 606',
+          sectionBackground: '2. 背景画像', uploadBackground: '背景画像をアップロード', imageZoom: '画像の拡大・縮小', centerImage: '画像を中央に配置',
+          imagePrivacyNote: '🔒 画像はブラウザー内でのみ処理され、サーバーにはアップロードされません',
+          sectionContent: '3. コンテンツを追加', addBus: '＋ バス', addMetro: '＋ 地下鉄', addText: '＋ テキストを追加', uploadLogo: 'ロゴをアップロード', textContent: 'テキスト内容', removeSelected: '選択した項目を削除',
+          sectionExport: '4. 書き出し', downloadPng: 'PNGをダウンロード', advertisementAria: '広告', commentsTitle: 'コメント', visits: 'アクセス数：', loading: '読み込み中…',
+          walletUseTitle: 'Apple Wallet / AirCard で使う',
+          walletUseDescription: 'Apple Wallet用のオリジナルカードデザインを作成するには、1536×969のプリセットを選択し、背景画像をアップロードして構図を調整します。ロゴやテキストを追加してPNGを書き出し、カスタムカードデザインに対応したツールに読み込んでください。',
+          emptyCanvas: '画像をアップロードしてデザインを開始', defaultCardText: 'マイカード', selectedBus: '選択中：バスアイコン', selectedMetro: '選択中：地下鉄アイコン', selectedText: '選択中：テキスト', selectedLogo: '選択中：ロゴ',
+          textSize: '文字サイズ', logoWidth: 'ロゴの幅', textColor: '文字色', iconColor: 'アイコンの色',
+          initialCredit: 'ページを開くとBingの日替わり壁紙が自動で読み込まれます。画像をアップロードして変更することもできます。', manualCredit: 'アップロードした背景画像を使用しています。', bingCredit: 'Bing 壁紙 · {date}{description}',
+          invalidSvg: 'SVGファイルの形式が正しくありません。', chooseImage: 'PNG、JPG、WebP、SVGの画像を選択してください。', svgUnreadable: 'SVGファイルを読み込めません。', imageUnreadable: '画像を読み込めません。別の画像を選択してください。',
+          loadingBing: '{date}のBing壁紙を読み込み中…', invalidWallpaper: '壁紙のURLが無効です', wallpaperDownloadFailed: '壁紙のダウンロードに失敗しました', invalidWallpaperFormat: '壁紙の形式が無効です', wallpaperLoaded: '{date}のBing壁紙を読み込みました。', wallpaperUnreadable: 'Bing壁紙を読み込めません。別の画像を選択してください。', wallpaperLoadFailed: 'Bing壁紙の読み込みに失敗しました。別の画像を選択するか、画像をアップロードしてください。',
+          wallpaperListFailed: '壁紙一覧を読み込めません。ページを再読み込みするか、画像をアップロードしてください。', wallpaperListFailedCredit: 'Bing壁紙一覧を読み込めません。画像をアップロードして引き続き利用できます。', wallpaperListFailedStatus: 'Bing壁紙一覧を読み込めません。画像をアップロードしてください。', wallpaperListReadFailed: '壁紙一覧の読み込みに失敗しました', wallpaperListEmpty: '壁紙一覧が空です',
+          wallpaperAlt: '{date}のBing壁紙', publishedOnly: '公開後に表示されます', unavailable: '現在利用できません', backgroundLoaded: '背景画像を読み込みました。', logoAdded: 'ロゴを追加しました。カード上でドラッグして移動できます。',
+          uploadFirst: '先に背景画像をアップロードしてください。', exportFailed: '書き出しに失敗しました。もう一度お試しください。', exported: '{width} × {height}のPNGを書き出しました。', exportSvgFailed: '書き出しに失敗しました。SVGにブラウザーが書き出しを許可しない外部リソースが含まれている可能性があります。', exportFilename: 'カード-{width}x{height}.png'
         }
       };
 
       function readStoredLanguage() {
-        try { return localStorage.getItem('carddesigner-language') === 'en' ? 'en' : 'zh'; }
+        try {
+          const language = localStorage.getItem('carddesigner-language');
+          return Object.prototype.hasOwnProperty.call(messages, language) ? language : 'zh';
+        }
         catch (error) { return 'zh'; }
       }
 
       const canvas = document.getElementById('card');
       const context = canvas.getContext('2d');
       const controls = {
-        languageToggle: document.getElementById('languageToggle'),
+        languageSelect: document.getElementById('languageSelect'),
         sizeTag: document.getElementById('sizeTag'),
         walletSize: document.getElementById('walletSize'),
         bankSize: document.getElementById('bankSize'),
@@ -264,14 +292,13 @@
 
       function applyLanguage(language) {
         state.language = language;
-        document.documentElement.lang = language === 'zh' ? 'zh-CN' : 'en';
+        document.documentElement.lang = language === 'zh' ? 'zh-CN' : language;
         document.title = text('documentTitle');
         document.querySelector('meta[name="description"]').setAttribute('content', text('pageDescription'));
         document.querySelectorAll('[data-i18n]').forEach(element => { element.textContent = text(element.dataset.i18n); });
         document.querySelectorAll('[data-i18n-html]').forEach(element => { element.innerHTML = text(element.dataset.i18nHtml); });
         document.querySelectorAll('[data-i18n-aria-label]').forEach(element => { element.setAttribute('aria-label', text(element.dataset.i18nAriaLabel)); });
-        controls.languageToggle.textContent = text('languageToggle');
-        controls.languageToggle.setAttribute('aria-label', text('languageToggleAria'));
+        controls.languageSelect.value = language;
         state.logos.filter(item => item.kind === 'text' && item.usesDefaultText).forEach(item => { item.text = text('defaultCardText'); });
         updateSelection();
         updateWallpaperLanguage();
@@ -845,8 +872,8 @@
         }
       });
 
-      controls.languageToggle.addEventListener('click', () => {
-        applyLanguage(state.language === 'zh' ? 'en' : 'zh');
+      controls.languageSelect.addEventListener('change', event => {
+        applyLanguage(event.target.value);
       });
 
       controls.exportPng.addEventListener('click', () => {

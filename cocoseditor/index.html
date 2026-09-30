@@ -11,7 +11,7 @@
   <link rel="alternate" hreflang="en" href="https://tonychenn.cn/cocoseditor/">
   <link rel="alternate" hreflang="zh-CN" href="https://tonychenn.cn/zh/cocoseditor/">
   <link rel="alternate" hreflang="x-default" href="https://tonychenn.cn/cocoseditor/">
-  <link rel="icon" href="/icon/cocos-editor.svg" type="image/svg+xml">
+  <link rel="icon" href="/icon/cocos-editor-64.png" type="image/png" sizes="64x64">
   <link rel="stylesheet" href="/cocoseditor/assets/site.css">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="CocosEditor">
@@ -20,14 +20,14 @@
   <meta property="og:url" content="https://tonychenn.cn/cocoseditor/">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="zh_CN">
-  <meta property="og:image" content="https://tonychenn.cn/cocoseditor/assets/editor-overview.webp">
+  <meta property="og:image" content="https://tonychenn.cn/cocoseditor/assets/editor-overview-live.png">
   <meta property="og:image:width" content="1858">
   <meta property="og:image:height" content="1080">
-  <meta property="og:image:alt" content="CocosEditor connected to a running game, with Game, Hierarchy, Inspector, Assets, and Logs panels">
+  <meta property="og:image:alt" content="CocosEditor connected to a running game, with Game, Hierarchy, Inspector, and Logs panels">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="CocosEditor - Runtime Editor for Cocos2d-x">
   <meta name="twitter:description" content="Inspect the live scene. Edit supported properties. Debug your Cocos2d-x game at runtime.">
-  <meta name="twitter:image" content="https://tonychenn.cn/cocoseditor/assets/editor-overview.webp">
+  <meta name="twitter:image" content="https://tonychenn.cn/cocoseditor/assets/editor-overview-live.png">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -39,7 +39,7 @@
     "softwareRequirements": ".NET 10 Desktop Runtime matching the editor architecture (x86 / x64); version-matched CocosEditor Runtime SDK for Windows x86 / x64 or Android ARM64",
     "url": "https://tonychenn.cn/cocoseditor/",
     "description": "A runtime editor and debugging tool for Cocos2d-x, with live hierarchy inspection, supported component property editing, assets, logs, and MCP integration.",
-    "screenshot": "https://tonychenn.cn/cocoseditor/assets/editor-overview.webp",
+    "screenshot": "https://tonychenn.cn/cocoseditor/assets/editor-overview-live.png",
     "inLanguage": "en",
     "author": { "@type": "Person", "name": "TonyChenn" },
     "sameAs": "https://github.com/TonyChenn/CocosEditor-Releases"
@@ -50,7 +50,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="/cocoseditor/" aria-label="CocosEditor home"><img src="/icon/cocos-editor.svg" width="34" height="34" alt="">CocosEditor</a>
+      <a class="brand" href="/cocoseditor/" aria-label="CocosEditor home"><img src="/icon/cocos-editor.png" width="34" height="34" alt="">CocosEditor</a>
       <nav class="site-nav" aria-label="Main navigation">
         <a href="#features">Features</a><a href="#mcp" class="nav-optional">MCP</a><a href="#documentation">Documentation</a><a href="#download">Get CocosEditor</a>
       </nav>
@@ -75,8 +75,9 @@
         </div>
       </div>
       <figure class="workspace">
-        <div class="image-shell"><a href="/cocoseditor/assets/editor-overview.webp" aria-label="Open the full-size CocosEditor screenshot"><img src="/cocoseditor/assets/editor-overview.webp" width="1858" height="1080" fetchpriority="high" alt="CocosEditor workspace with a running game, a selected UI node in Hierarchy, editable properties in Inspector, Assets, and Logs"></a></div>
-        <figcaption><span>Actual editor screenshot · Game / Hierarchy / Inspector / Assets / Logs</span><span class="live-indicator">Connected to a running game</span></figcaption>
+        <div class="image-shell"><a class="workspace-shot" href="/cocoseditor/assets/editor-overview-live.png" aria-label="Open the full-size CocosEditor screenshot"><img src="/cocoseditor/assets/editor-overview-live.png" width="1858" height="1080" fetchpriority="high" alt="CocosEditor showing the live game, node hierarchy, editable Inspector, and runtime logs"><span class="workspace-marker marker-menu" aria-hidden="true"></span><span class="workspace-marker marker-tools" aria-hidden="true"></span><span class="workspace-marker marker-compile marker-icon" aria-hidden="true"></span><span class="workspace-marker marker-android marker-icon" aria-hidden="true"></span><span class="workspace-marker marker-game" aria-hidden="true"></span><span class="workspace-marker marker-hierarchy" aria-hidden="true"></span><span class="workspace-marker marker-inspector" aria-hidden="true"></span><span class="workspace-marker marker-logs" aria-hidden="true"></span></a></div>
+        <figcaption><span>Actual editor screenshot · match the numbered areas with the guide below<span class="workspace-swipe"> · Swipe to view the full screenshot</span></span><span class="live-indicator">Connected to a running game</span></figcaption>
+        <ol class="workspace-key" aria-label="CocosEditor screenshot features"><li><strong>Menu &amp; toolbar</strong><span>Editor commands and quick actions</span></li><li><strong>Resolution &amp; node tools</strong><span>Preview size and selection handles</span></li><li><strong>Script compilation</strong><span>Hammer action in the top bar</span></li><li><strong>Android remote connection tool</strong><span>Open the device connection dialog</span></li><li><strong>Live game view</strong><span>Inspect and select running UI</span></li><li><strong>Scene hierarchy</strong><span>Browse live nodes and relationships</span></li><li><strong>Inspector</strong><span>View and edit supported properties</span></li><li><strong>Runtime logs</strong><span>Filter and inspect output</span></li></ol>
       </figure>
       <p class="intro">Connect it to a running game to inspect the live scene hierarchy, select nodes, edit component properties in real time, browse assets, inspect logs, and expose runtime capabilities to AI tools through MCP.</p>
     </section>
@@ -91,11 +92,11 @@
 
     <section class="section wrap feature" id="features" aria-labelledby="hierarchy-title">
       <div class="feature-copy"><p class="eyebrow">01 / Live Hierarchy</p><h2 id="hierarchy-title">Inspect the Live Scene Hierarchy</h2><p class="feature-lead">Explore the actual node hierarchy of the running game.</p><p>Find UI nodes, follow parent-child relationships, and investigate unexpected nesting or draw order. See the current Cocos2d-x hierarchy directly instead of inferring it from code.</p><p>Select a node in Game or Hierarchy and inspect the same selection in Inspector.</p></div>
-      <figure class="feature-figure"><div class="image-shell"><div class="panel-crop hierarchy-crop"><img src="/cocoseditor/assets/editor-overview.webp" width="1858" height="1080" loading="lazy" decoding="async" alt="Actual Hierarchy panel showing the Tanzaku node tree and a selected Button node"></div></div><figcaption>Hierarchy detail from the editor screenshot above.</figcaption></figure>
+      <figure class="feature-figure"><div class="image-shell"><div class="panel-crop hierarchy-crop"><img src="/cocoseditor/assets/editor-overview-live.png" width="1858" height="1080" loading="lazy" decoding="async" alt="Actual Hierarchy panel showing the live scene tree and selected CocosTest_Button node"></div></div><figcaption>Hierarchy detail from the editor screenshot above.</figcaption></figure>
     </section>
 
     <section class="section wrap feature reverse" id="inspector" aria-labelledby="inspector-title">
-      <figure class="feature-figure"><div class="image-shell"><div class="panel-crop inspector-crop"><img src="/cocoseditor/assets/editor-overview.webp" width="1858" height="1080" loading="lazy" decoding="async" alt="Actual Cocos2d-x Inspector showing Node, Transform, and Widget properties, including position, size, visibility, and scale"></div></div><figcaption>Inspector detail for the selected node in the running game.</figcaption></figure>
+      <figure class="feature-figure"><div class="image-shell"><div class="panel-crop inspector-crop"><img src="/cocoseditor/assets/editor-overview-live.png" width="1858" height="1080" loading="lazy" decoding="async" alt="Actual Cocos2d-x Inspector showing Node, Transform, and Widget properties, including position, size, visibility, and scale"></div></div><figcaption>Inspector detail for the selected node in the running game.</figcaption></figure>
       <div class="feature-copy"><p class="eyebrow">02 / Runtime Inspector</p><h2 id="inspector-title">Edit Properties in Real Time</h2><p class="feature-lead">Select a node and inspect or modify supported component properties while the game is running.</p><p>Use the Cocos2d-x inspector to adjust exposed values such as position, size, scale, visibility, color, and text. Supported edits apply to the live node and are reflected in Game.</p><div class="feedback-pills"><span>No rebuild.</span><span>No restart.</span><span>Immediate feedback.</span></div><div class="result-note"><strong>Inspector → Game</strong><span>Change a supported value and observe the selected node in the live Game view shown above.</span></div><p class="download-note">Runtime edits affect the current session. They do not automatically save back to your source code or CSB/CSD files.</p></div>
     </section>
 
@@ -108,6 +109,10 @@
         <article class="capability"><p class="capability-number">04 / STATE</p><h3>Runtime state debugging</h3><p>Check live visibility, transforms, and supported values when the game behaves unexpectedly.</p></article>
         <article class="capability"><p class="capability-number">05 / ASSETS</p><h3>Asset browsing</h3><p>Browse and find project resources in the Assets panel alongside the Game view.</p></article>
         <article class="capability"><p class="capability-number">06 / LOGS</p><h3>Log inspection</h3><p>Follow editor and runtime output with search, channel filters, and severity filters.</p></article>
+      </div>
+      <div class="android-connection">
+        <div><p class="eyebrow">Android connection</p><h3>Android remote connection tool</h3><p>Choose a USB or Wi-Fi connection, then select the device, package, and Activity. The dialog also accepts an APK to install or update on the selected device.</p></div>
+        <figure><a href="/cocoseditor/assets/android-remote-connection.png" aria-label="Open the full-size Android connection dialog screenshot"><img src="/cocoseditor/assets/android-remote-connection.png" width="706" height="396" loading="lazy" decoding="async" alt="Android connection dialog with ADB path, USB and Wi-Fi modes, device, package, Activity, and APK installation area"></a><figcaption>Actual Android connection dialog · click to view full size.</figcaption></figure>
       </div>
     </section>
 

@@ -11,7 +11,7 @@
   <link rel="alternate" hreflang="en" href="https://tonychenn.cn/cocoseditor/">
   <link rel="alternate" hreflang="zh-CN" href="https://tonychenn.cn/zh/cocoseditor/">
   <link rel="alternate" hreflang="x-default" href="https://tonychenn.cn/cocoseditor/">
-  <link rel="icon" href="/icon/cocos-editor.svg" type="image/svg+xml">
+  <link rel="icon" href="/icon/cocos-editor-64.png" type="image/png" sizes="64x64">
   <link rel="stylesheet" href="/cocoseditor/assets/site.css">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="CocosEditor">
@@ -20,14 +20,14 @@
   <meta property="og:url" content="https://tonychenn.cn/zh/cocoseditor/">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:locale:alternate" content="en_US">
-  <meta property="og:image" content="https://tonychenn.cn/cocoseditor/assets/editor-overview.webp">
+  <meta property="og:image" content="https://tonychenn.cn/cocoseditor/assets/editor-overview-live.png">
   <meta property="og:image:width" content="1858">
   <meta property="og:image:height" content="1080">
-  <meta property="og:image:alt" content="CocosEditor 连接正在运行的游戏，展示 Game、Hierarchy、Inspector、Assets 和 Logs 面板">
+  <meta property="og:image:alt" content="CocosEditor 连接正在运行的游戏，展示 Game、Hierarchy、Inspector 和 Logs 面板">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="CocosEditor - Cocos2d-x 运行时编辑器">
   <meta name="twitter:description" content="查看实时节点树、修改受支持的属性，直接检查正在运行的 Cocos2d-x 游戏。">
-  <meta name="twitter:image" content="https://tonychenn.cn/cocoseditor/assets/editor-overview.webp">
+  <meta name="twitter:image" content="https://tonychenn.cn/cocoseditor/assets/editor-overview-live.png">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -39,7 +39,7 @@
     "softwareRequirements": "与编辑器架构匹配的 .NET 10 Desktop Runtime（x86 / x64）；接入版本匹配的 CocosEditor Runtime SDK，支持 Windows x86 / x64 或 Android ARM64",
     "url": "https://tonychenn.cn/zh/cocoseditor/",
     "description": "面向 Cocos2d-x 的运行时编辑与调试工具，支持实时节点树检查、受支持组件属性编辑、资源与日志浏览，以及 MCP 集成。",
-    "screenshot": "https://tonychenn.cn/cocoseditor/assets/editor-overview.webp",
+    "screenshot": "https://tonychenn.cn/cocoseditor/assets/editor-overview-live.png",
     "inLanguage": "zh-CN",
     "author": { "@type": "Person", "name": "TonyChenn" },
     "sameAs": "https://github.com/TonyChenn/CocosEditor-Releases"
@@ -50,7 +50,7 @@
   <a class="skip-link" href="#main">跳到正文</a>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="/zh/cocoseditor/" aria-label="CocosEditor 首页"><img src="/icon/cocos-editor.svg" width="34" height="34" alt="">CocosEditor</a>
+      <a class="brand" href="/zh/cocoseditor/" aria-label="CocosEditor 首页"><img src="/icon/cocos-editor.png" width="34" height="34" alt="">CocosEditor</a>
       <nav class="site-nav" aria-label="主导航">
         <a href="#features">功能</a><a href="#mcp" class="nav-optional">MCP</a><a href="#documentation">文档</a><a href="#download">联系获取</a>
       </nav>
@@ -75,8 +75,9 @@
         </div>
       </div>
       <figure class="workspace">
-        <div class="image-shell"><a href="/cocoseditor/assets/editor-overview.webp" aria-label="查看 CocosEditor 完整尺寸截图"><img src="/cocoseditor/assets/editor-overview.webp" width="1858" height="1080" fetchpriority="high" alt="CocosEditor 真实工作区：运行中的游戏、Hierarchy 中选中的 UI 节点、Inspector 可编辑属性、Assets 资源与 Logs 日志"></a></div>
-        <figcaption><span>编辑器实际截图 · Game / Hierarchy / Inspector / Assets / Logs</span><span class="live-indicator">已连接正在运行的游戏</span></figcaption>
+        <div class="image-shell"><a class="workspace-shot" href="/cocoseditor/assets/editor-overview-live.png" aria-label="查看 CocosEditor 完整尺寸截图"><img src="/cocoseditor/assets/editor-overview-live.png" width="1858" height="1080" fetchpriority="high" alt="CocosEditor 实际界面，展示实时游戏画面、场景节点树、属性面板和运行日志"><span class="workspace-marker marker-menu" aria-hidden="true"></span><span class="workspace-marker marker-tools" aria-hidden="true"></span><span class="workspace-marker marker-compile marker-icon" aria-hidden="true"></span><span class="workspace-marker marker-android marker-icon" aria-hidden="true"></span><span class="workspace-marker marker-game" aria-hidden="true"></span><span class="workspace-marker marker-hierarchy" aria-hidden="true"></span><span class="workspace-marker marker-inspector" aria-hidden="true"></span><span class="workspace-marker marker-logs" aria-hidden="true"></span></a></div>
+        <figcaption><span>编辑器实际截图 · 对照下方编号查看主要功能<span class="workspace-swipe"> · 左右滑动可查看完整截图</span></span><span class="live-indicator">已连接正在运行的游戏</span></figcaption>
+        <ol class="workspace-key" aria-label="CocosEditor 截图功能标注"><li><strong>菜单与工具栏</strong><span>编辑器命令和常用操作</span></li><li><strong>分辨率与节点工具</strong><span>预览尺寸及节点抓手</span></li><li><strong>脚本编译</strong><span>顶部锤子按钮</span></li><li><strong>安卓远程连接工具</strong><span>打开设备连接窗口</span></li><li><strong>实时游戏画面</strong><span>查看并选中运行中的 UI</span></li><li><strong>场景节点树</strong><span>浏览实时节点及父子关系</span></li><li><strong>属性检查与修改</strong><span>查看并编辑受支持的属性</span></li><li><strong>运行日志</strong><span>筛选和查看运行输出</span></li></ol>
       </figure>
       <p class="intro">连接正在运行的游戏后，可以查看实时节点树、选择节点、检查和修改组件属性、浏览资源、查看日志，并通过 MCP 将游戏运行时能力开放给 AI 工具。</p>
     </section>
@@ -91,11 +92,11 @@
 
     <section class="section wrap feature" id="features" aria-labelledby="hierarchy-title">
       <div class="feature-copy"><p class="eyebrow">01 / Live Hierarchy</p><h2 id="hierarchy-title">查看实时场景节点树</h2><p class="feature-lead">浏览正在运行的游戏中实际存在的节点层级。</p><p>快速找到 UI 节点，查看父子关系，定位层级嵌套和绘制顺序问题。直接查看当前的 Cocos2d-x 节点树，不必仅凭代码推断运行状态。</p><p>在 Game 或 Hierarchy 中选择节点，即可在 Inspector 中检查同一个对象。</p></div>
-      <figure class="feature-figure"><div class="image-shell"><div class="panel-crop hierarchy-crop"><img src="/cocoseditor/assets/editor-overview.webp" width="1858" height="1080" loading="lazy" decoding="async" alt="真实 Hierarchy 面板，展示 Tanzaku 节点层级与选中的 Button 节点"></div></div><figcaption>上方编辑器实际截图中的 Hierarchy 面板细节。</figcaption></figure>
+      <figure class="feature-figure"><div class="image-shell"><div class="panel-crop hierarchy-crop"><img src="/cocoseditor/assets/editor-overview-live.png" width="1858" height="1080" loading="lazy" decoding="async" alt="真实 Hierarchy 面板，展示实时场景节点树与选中的 CocosTest_Button 节点"></div></div><figcaption>上方编辑器截图中的 Hierarchy 面板细节。</figcaption></figure>
     </section>
 
     <section class="section wrap feature reverse" id="inspector" aria-labelledby="inspector-title">
-      <figure class="feature-figure"><div class="image-shell"><div class="panel-crop inspector-crop"><img src="/cocoseditor/assets/editor-overview.webp" width="1858" height="1080" loading="lazy" decoding="async" alt="真实 Inspector 面板，展示 Node、Transform 与 Widget 的位置、尺寸、可见性、缩放等属性"></div></div><figcaption>运行中所选节点的 Inspector 面板细节。</figcaption></figure>
+      <figure class="feature-figure"><div class="image-shell"><div class="panel-crop inspector-crop"><img src="/cocoseditor/assets/editor-overview-live.png" width="1858" height="1080" loading="lazy" decoding="async" alt="真实 Inspector 面板，展示 Node、Transform 与 Widget 的位置、尺寸、可见性、缩放等属性"></div></div><figcaption>运行中所选节点的 Inspector 面板细节。</figcaption></figure>
       <div class="feature-copy"><p class="eyebrow">02 / Runtime Inspector</p><h2 id="inspector-title">实时检查与修改属性</h2><p class="feature-lead">选中节点后，在游戏运行中查看或修改受支持的组件属性。</p><p>通过 Cocos2d-x Inspector 调整已开放的位置、尺寸、缩放、可见性、颜色和文字等属性。受支持的修改直接作用于实时节点，并反映在 Game 画面中。</p><div class="feedback-pills"><span>无需重新编译。</span><span>无需重启游戏。</span><span>即时反馈。</span></div><div class="result-note"><strong>Inspector → Game</strong><span>修改受支持的数值，在上方实时 Game 画面中观察所选节点的变化。</span></div><p class="download-note">运行时修改作用于当前会话，不会自动保存到源码或 CSB/CSD 文件。</p></div>
     </section>
 
@@ -108,6 +109,10 @@
         <article class="capability"><p class="capability-number">04 / STATE</p><h3>运行时状态调试</h3><p>检查实时可见性、变换与受支持的属性值，定位异常表现。</p></article>
         <article class="capability"><p class="capability-number">05 / ASSETS</p><h3>资源浏览</h3><p>在 Assets 面板中浏览和查找项目资源，与 Game 画面配合使用。</p></article>
         <article class="capability"><p class="capability-number">06 / LOGS</p><h3>日志检查</h3><p>集中查看编辑器与运行时输出，支持搜索、通道与等级筛选。</p></article>
+      </div>
+      <div class="android-connection">
+        <div><p class="eyebrow">Android 连接</p><h3>安卓远程连接工具</h3><p>选择 USB 或 Wi-Fi 连接方式，再选择设备、包名和 Activity。窗口还支持拖入 APK，在选中的设备上安装或更新应用。</p></div>
+        <figure><a href="/cocoseditor/assets/android-remote-connection.png" aria-label="查看安卓连接窗口完整截图"><img src="/cocoseditor/assets/android-remote-connection.png" width="706" height="396" loading="lazy" decoding="async" alt="安卓连接窗口，包含 ADB 路径、USB 和 Wi-Fi 模式、设备、包名、Activity 与 APK 安装区域"></a><figcaption>安卓连接窗口实际截图 · 点击查看原图。</figcaption></figure>
       </div>
     </section>
 

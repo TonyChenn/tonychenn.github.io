@@ -6,6 +6,8 @@
   <meta name="theme-color" content="#173a32">
   <title>全国退休计算器｜职工退休年龄、职工养老金与城乡居民养老金</title>
   <meta name="description" content="全国退休计算器：查询职工退休年龄，估算职工养老金和城乡居民基本养老保险养老金（含农村居民）。">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8181303774570877" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
   <style>
     :root { color-scheme: light; font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; }
     * { box-sizing: border-box; }
@@ -24,13 +26,13 @@
     .region-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .region-row[data-has-city="false"] { grid-template-columns: 1fr; }
     .region-row .field { min-width: 0; margin-bottom: 0; }
-    input, select { width: 100%; min-height: 48px; padding: 11px 13px; border: 1px solid #bbcfc3; border-radius: 11px; background: #fff; color: #18352e; font: inherit; font-size: 16px; }
-    input:focus, select:focus { outline: 3px solid #c7e5d1; border-color: #247b51; }
+    .input-card input, .input-card select { width: 100%; min-height: 48px; padding: 11px 13px; border: 1px solid #bbcfc3; border-radius: 11px; background: #fff; color: #18352e; font: inherit; font-size: 16px; }
+    .input-card input:focus, .input-card select:focus { outline: 3px solid #c7e5d1; border-color: #247b51; }
     .field-help { margin: 8px 0 0; color: #718279; font-size: 12px; line-height: 1.6; }
     .custom-index-label { margin-top: 12px; }
-    button { width: 100%; min-height: 49px; border: 0; border-radius: 11px; color: #fff; background: #176a49; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; }
-    button:hover { background: #105a3d; }
-    button:focus-visible { outline: 3px solid #8ccaa2; outline-offset: 3px; }
+    .tab-link, .input-card button { width: 100%; min-height: 49px; border: 0; border-radius: 11px; color: #fff; background: #176a49; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; }
+    .tab-link:hover, .input-card button:hover { background: #105a3d; }
+    .tab-link:focus-visible, .input-card button:focus-visible { outline: 3px solid #8ccaa2; outline-offset: 3px; }
     .tab-link { min-height: 50px; padding: 10px 12px; border-radius: 12px; background: transparent; color: #516b5e; font-size: 14px; text-align: left; }
     .tab-link:hover { background: #eaf2eb; color: #176a49; }
     .tab-link[aria-pressed="true"], .tab-link[aria-pressed="true"]:hover { background: #176a49; color: #fff; }
@@ -59,6 +61,10 @@
     .sources { margin-top: 24px; padding: 20px 24px; color: #63756b; font-size: 12px; line-height: 1.8; }
     .sources p { margin: 0 0 6px; }
     .sources a { color: #176a49; text-underline-offset: 2px; }
+    .ad-container { min-height: 90px; margin-top: 24px; overflow: hidden; text-align: center; }
+    .comments-panel { margin-top: 24px; padding: 24px; }
+    .comments-panel h2 { margin: 0 0 18px; font-size: 18px; }
+    .page-footer { margin-top: 18px; color: #718279; font-size: 12px; text-align: center; font-variant-numeric: tabular-nums; }
     @media (max-width: 900px) and (min-width: 721px) {
       .layout { grid-template-columns: 1fr; }
     }
@@ -277,8 +283,24 @@
       </section>
       </div>
     </div>
+    <div class="ad-container" aria-label="广告">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-8181303774570877"
+           data-ad-slot="6631963511"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </div>
+    <section class="card comments-panel" aria-labelledby="comments-title">
+      <h2 id="comments-title">留言</h2>
+      <div id="gitalk-container"></div>
+    </section>
+    <footer class="page-footer">访问次数：<span id="busuanzi_page_pv" aria-live="polite">加载中…</span></footer>
   </main>
 
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   <script src="retirement_regions.js"></script>
   <script src="retirement_bases.js"></script>
   <script>
@@ -660,6 +682,31 @@
     if (ageBirthInput.value) syncStaffFromAge();
     else if (pensionBirthInput.value) syncAgeFromPension();
     else render();
+  </script>
+  <script>
+    const visitCounter = document.getElementById('busuanzi_page_pv');
+    if (/^https?:$/.test(location.protocol) && !['localhost', '127.0.0.1'].includes(location.hostname)) {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js';
+      script.onerror = () => { visitCounter.textContent = '暂不可用'; };
+      document.head.append(script);
+    } else {
+      visitCounter.textContent = '仅线上显示';
+    }
+  </script>
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script>
+    const gitalk = new Gitalk({
+      clientID: '9b72de255840a939dffc',
+      clientSecret: '9ad95d954f8f73a9caf2e79d533cb52d4d172d44',
+      repo: 'blog.tonychenn.cn',
+      owner: 'tonychenn',
+      admin: ['tonychenn'],
+      id: 'calculator-retirement',
+      distractionFreeMode: true,
+      proxy: 'https://proxy-gitalk-api.netlify.app/github_access_token'
+    });
+    gitalk.render('gitalk-container');
   </script>
 </body>
 </html>

@@ -85,13 +85,13 @@ h1 {
 .portal {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .portal-card {
   position: relative;
   min-width: 0;
-  min-height: 158px;
+  min-height: 142px;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 24px;
@@ -100,12 +100,12 @@ h1 {
 }
 
 .project-card {
-  padding: clamp(16px, 3vw, 24px);
+  padding: clamp(14px, 2vw, 18px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 18px;
+  gap: 12px;
   color: inherit;
   text-decoration: none;
 }
@@ -122,17 +122,17 @@ a.project-card:focus-visible {
 }
 
 .icon-wrap {
-  width: 64px;
-  height: 64px;
-  flex: 0 0 64px;
-  border-radius: 19px;
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  border-radius: 17px;
   display: grid;
   place-items: center;
 }
 
 .icon-wrap img {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
 }
 
 .icon-wrap-blue {
@@ -148,15 +148,21 @@ a.project-card:focus-visible {
 }
 
 .icon-wrap-teal {
-  background: #e2f6f2;
+  background: #05070c;
+  overflow: hidden;
+}
+
+.cocos-editor-card .icon-wrap img {
+  width: 100%;
+  height: 100%;
 }
 
 .icon-wrap-violet {
   background: #eee9ff;
 }
 
-.carddesign-card {
-  grid-column: span 2;
+.icon-wrap-green {
+  background: #e5f4ea;
 }
 
 .card-copy {
@@ -181,8 +187,8 @@ a.project-card:focus-visible {
 
 .card-arrow {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   color: #929bad;
   font-size: 1.2rem;
   line-height: 1;
@@ -220,11 +226,11 @@ a.project-card:focus-visible {
 @media (min-width: 720px) {
   .portal {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+    gap: 14px;
   }
 
   .portal-card {
-    min-height: 178px;
+    min-height: 155px;
   }
 }
 
@@ -252,30 +258,30 @@ a.project-card:focus-visible {
   }
 
   .portal-card {
-    min-height: 150px;
+    min-height: 136px;
     border-radius: 20px;
   }
 
   .project-card {
-    padding: 15px;
-    gap: 14px;
+    padding: 12px;
+    gap: 10px;
   }
 
   .icon-wrap {
-    width: 56px;
-    height: 56px;
-    flex-basis: 56px;
-    border-radius: 17px;
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+    border-radius: 15px;
   }
 
   .icon-wrap img {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
   }
 
   .card-arrow {
-    top: 17px;
-    right: 16px;
+    top: 14px;
+    right: 14px;
   }
 
   .card-description {

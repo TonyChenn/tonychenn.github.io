@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173a32">
+  <title>全国退休计算器｜职工退休年龄、职工养老金与城乡居民养老金</title>
+  <meta name="description" content="全国退休计算器：查询职工退休年龄，估算职工养老金和城乡居民基本养老保险养老金（含农村居民）。">
+  <style>
+    :root { color-scheme: light; font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; color: #18352e; background: #f1f4ef; }
+    .shell { max-width: 1080px; margin: 0 auto; padding: 42px 24px 60px; }
+    h1 { margin: 0 0 30px; font-size: clamp(30px, 4vw, 46px); letter-spacing: -.04em; line-height: 1.2; }
+    .app-grid { display: grid; grid-template-columns: 176px minmax(0, 1fr); gap: 18px; align-items: start; }
+    .tab-nav { position: sticky; top: 24px; display: grid; gap: 6px; padding: 9px; }
+    .layout { display: grid; grid-template-columns: minmax(275px, 360px) minmax(0, 1fr); gap: 18px; align-items: stretch; }
+    .card { background: #fff; border: 1px solid #dce6dd; border-radius: 22px; box-shadow: 0 12px 32px rgba(23,58,50,.05); }
+    .input-card { padding: 28px; }
+    .card-title { margin: 0 0 23px; font-size: 18px; }
+    label { display: block; margin: 0 0 8px; font-size: 14px; font-weight: 700; }
+    .field { margin-bottom: 22px; }
+    .region-group { margin-bottom: 22px; }
+    .region-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .region-row[data-has-city="false"] { grid-template-columns: 1fr; }
+    .region-row .field { min-width: 0; margin-bottom: 0; }
+    input, select { width: 100%; min-height: 48px; padding: 11px 13px; border: 1px solid #bbcfc3; border-radius: 11px; background: #fff; color: #18352e; font: inherit; font-size: 16px; }
+    input:focus, select:focus { outline: 3px solid #c7e5d1; border-color: #247b51; }
+    .field-help { margin: 8px 0 0; color: #718279; font-size: 12px; line-height: 1.6; }
+    .custom-index-label { margin-top: 12px; }
+    button { width: 100%; min-height: 49px; border: 0; border-radius: 11px; color: #fff; background: #176a49; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; }
+    button:hover { background: #105a3d; }
+    button:focus-visible { outline: 3px solid #8ccaa2; outline-offset: 3px; }
+    .tab-link { min-height: 50px; padding: 10px 12px; border-radius: 12px; background: transparent; color: #516b5e; font-size: 14px; text-align: left; }
+    .tab-link:hover { background: #eaf2eb; color: #176a49; }
+    .tab-link[aria-pressed="true"], .tab-link[aria-pressed="true"]:hover { background: #176a49; color: #fff; }
+    .error { min-height: 20px; margin: 11px 0 0; color: #b63e35; font-size: 13px; }
+    .result-card { overflow: hidden; }
+    .result-top { padding: 28px 32px 30px; background: #173a32; color: #fff; }
+    .result-top .label { margin: 0 0 12px; color: #b1d7c4; font-size: 13px; font-weight: 700; }
+    .big-age { margin: 0; font-size: clamp(38px, 5vw, 58px); font-weight: 800; letter-spacing: -.05em; line-height: 1.15; }
+    .date { margin: 12px 0 0; color: #d9ece0; font-size: 19px; }
+    .delay { display: inline-block; margin-top: 20px; padding: 7px 10px; border: 1px solid #729988; border-radius: 8px; color: #d9ece0; font-size: 12px; }
+    .result-body { padding: 26px 32px 30px; }
+    .section-label { margin: 0 0 16px; color: #61736a; font-size: 13px; font-weight: 700; }
+    .flex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .flex-item { padding: 17px; border: 1px solid #e0e9e1; border-radius: 13px; background: #f8faf7; }
+    .flex-item .tiny { display: block; color: #65796c; font-size: 12px; }
+    .flex-item strong { display: block; margin-top: 7px; font-size: 18px; }
+    .flex-item .age { display: block; margin-top: 4px; color: #72847a; font-size: 12px; }
+    .note { margin: 18px 0 0; color: #64766d; font-size: 13px; line-height: 1.7; }
+    .rule { height: 1px; margin: 24px 0; background: #e4ebe4; }
+    .minimum { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; font-size: 14px; }
+    .minimum strong { color: #176a49; font-size: 18px; white-space: nowrap; }
+    .breakdown { display: grid; gap: 15px; }
+    .breakdown-row { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; font-size: 14px; }
+    .breakdown-row strong { color: #176a49; font-size: 19px; white-space: nowrap; }
+    .old-policy { padding: 14px; border-radius: 11px; background: #f8faf7; color: #5d7165; font-size: 14px; line-height: 1.7; }
+    .sources { margin-top: 24px; padding: 20px 24px; color: #63756b; font-size: 12px; line-height: 1.8; }
+    .sources p { margin: 0 0 6px; }
+    .sources a { color: #176a49; text-underline-offset: 2px; }
+    @media (max-width: 900px) and (min-width: 721px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .shell { padding: 28px 16px 42px; }
+      h1 { margin-bottom: 22px; }
+      .app-grid { grid-template-columns: 1fr; gap: 14px; }
+      .tab-nav { position: static; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .tab-link { text-align: center; }
+      .layout { grid-template-columns: 1fr; }
+      .input-card, .result-top, .result-body { padding-left: 22px; padding-right: 22px; }
+    }
+    @media (max-width: 420px) {
+      .flex-grid { grid-template-columns: 1fr; }
+      .region-row select { padding-left: 8px; padding-right: 4px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <h1>全国退休计算器</h1>
+
+    <div class="app-grid">
+      <nav class="card tab-nav" aria-label="计算器切换">
+        <button type="button" class="tab-link" data-panel="age-panel" aria-controls="age-panel" aria-pressed="true">职工退休年龄</button>
+        <button type="button" class="tab-link" data-panel="pension-panel" aria-controls="pension-panel" aria-pressed="false">职工养老金</button>
+        <button type="button" class="tab-link" data-panel="resident-panel" aria-controls="resident-panel" aria-pressed="false">城乡居民养老金（农村）</button>
+      </nav>
+      <div class="panels">
+      <section id="age-panel" aria-label="退休年龄计算">
+    <div class="layout">
+      <form class="card input-card" id="calculator" novalidate>
+        <h2 class="card-title">填写基本信息</h2>
+        <div class="field">
+          <label for="birth">出生年月</label>
+          <input id="birth" name="birth" type="month" min="1900-01" max="2099-12" required>
+          <p class="field-help">以办理退休时认定的出生年月为准；填写后自动带入职工养老金页。</p>
+        </div>
+        <div class="field">
+          <label for="category">原法定退休年龄类别</label>
+          <select id="category" name="category">
+            <option value="male">男职工（原 60 岁）</option>
+            <option value="female-worker">女职工·原 50 岁（通常为工人岗位）</option>
+            <option value="female-manager">女职工·原 55 岁（通常为管理或技术岗位）</option>
+          </select>
+          <p class="field-help">女职工及灵活就业人员应以当地社保经办机构认定的原退休年龄类别为准。</p>
+        </div>
+        <button type="submit">计算退休年龄</button>
+        <p class="error" id="error" role="alert"></p>
+      </form>
+
+      <section class="card result-card" aria-live="polite" aria-atomic="true">
+        <div class="result-top">
+          <p class="label">全国统一法定退休年龄</p>
+          <p class="big-age" id="legal-age">—</p>
+          <p class="date" id="legal-date">请选择出生年月</p>
+          <span class="delay" id="delay">—</span>
+        </div>
+        <div class="result-body" id="result-body"></div>
+      </section>
+    </div>
+
+    <div class="card sources">
+      <p>按 2025 年起全国实施的渐进式延迟退休政策计算。适用于上述普通职工类别；特殊工种、病退等情况需另按规定认定。实际退休资格还取决于缴费年限等条件。</p>
+      <p>政策依据：<a href="https://www.jiangmen.gov.cn/jmjtj/attachment/0/374/374149/3479072.pdf" target="_blank" rel="noopener noreferrer">全国人大常委会决定及退休年龄对照表</a> · <a href="https://www.mohrss.gov.cn/wap/zc/zcwj/202501/t20250101_533701.html" target="_blank" rel="noopener noreferrer">弹性退休制度暂行办法</a></p>
+    </div>
+      </section>
+
+      <section id="pension-panel" aria-label="退休金计算" hidden>
+        <div class="layout">
+          <form class="card input-card" id="pension-calculator" novalidate>
+            <h2 class="card-title">填写计算参数</h2>
+            <div class="field">
+              <label for="pension-birth">出生年月</label>
+              <input id="pension-birth" name="birth" type="month" min="1900-01" max="2099-12" required>
+              <p class="field-help">与职工退休年龄页双向同步，已填过无需再填。</p>
+            </div>
+            <div class="field">
+              <label for="pension-category">原法定退休年龄类别</label>
+              <select id="pension-category" name="category">
+                <option value="male">男职工（原 60 岁）</option>
+                <option value="female-worker">女职工（原 50 岁）</option>
+                <option value="female-manager">女职工（原 55 岁）</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="pension-retirement">实际或预计退休年月</label>
+              <input id="pension-retirement" name="retirement" type="month" required>
+              <p class="field-help" id="pension-retirement-help" aria-live="polite">填写出生年月后自动带出法定退休时间；弹性退休可修改。</p>
+            </div>
+            <div class="region-group">
+              <div class="region-row" id="pension-region-row" data-has-city="false">
+                <div class="field">
+                  <label for="pension-province">省份</label>
+                  <select id="pension-province" name="province">
+                    <option value="">请选择省份</option>
+                  </select>
+                </div>
+                <div class="field" id="pension-city-field" hidden>
+                  <label for="pension-city">城市</label>
+                  <select id="pension-city" name="city" disabled>
+                    <option value="">请选择城市</option>
+                  </select>
+                </div>
+              </div>
+              <p class="field-help">按待遇领取地选择；不清楚时可跳过，直接填写下方的计发基数。</p>
+            </div>
+            <div class="field">
+              <label for="pension-base">退休地计发基数（元/月）</label>
+              <input id="pension-base" name="base" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="请输入计发基数" required>
+              <p class="field-help">选择城市后，如有已核实的官方数据会自动填入；也可以手动修改。</p>
+              <p class="field-help" id="pension-base-source" aria-live="polite">计发基数由待遇领取地和退休年份确定；当前数据仅用于试算。</p>
+            </div>
+            <div class="field">
+              <label for="pension-index-preset">本人平均缴费指数</label>
+              <select id="pension-index-preset">
+                <option value="0.6">0.6（按最低档缴费）</option>
+                <option value="1" selected>1.0（按社平工资缴费）</option>
+                <option value="1.5">1.5（按 1.5 倍社平缴费）</option>
+                <option value="2">2.0（按 2 倍社平缴费）</option>
+                <option value="3">3.0（上限档）</option>
+                <option value="custom">自定义指数</option>
+              </select>
+              <div id="pension-index-custom-field" hidden>
+                <label for="pension-index" class="custom-index-label">自定义平均缴费指数</label>
+                <input id="pension-index" name="index" type="number" min="0" step="0.0001" inputmode="decimal" value="1" required>
+              </div>
+              <p class="field-help" id="pension-index-help">按常用缴费档次粗略估算；历年缴费档次不同，以实际记录计算的平均指数为准。</p>
+            </div>
+            <div class="field">
+              <label for="pension-months">累计缴费月数</label>
+              <input id="pension-months" name="months" type="number" min="0" step="1" inputmode="numeric" placeholder="例如 240" required>
+              <p class="field-help">12 个月按 1 年计算。</p>
+            </div>
+            <div class="field">
+              <label for="pension-balance">退休时个人账户储存额（元）</label>
+              <input id="pension-balance" name="balance" type="number" min="0" step="0.01" inputmode="decimal" placeholder="例如 100000" required>
+              <p class="field-help">如果填当前余额，计算时会假设它到退休时不变。</p>
+            </div>
+            <button type="submit">计算每月退休金</button>
+            <p class="error" id="pension-error" role="alert"></p>
+          </form>
+
+          <section class="card result-card" aria-live="polite" aria-atomic="true">
+            <div class="result-top">
+              <p class="label">每月基本养老金 · 粗略试算</p>
+              <p class="big-age" id="pension-total">—</p>
+              <p class="date" id="pension-status">填写参数后显示结果</p>
+            </div>
+            <div class="result-body">
+              <p class="section-label">计算明细</p>
+              <div class="breakdown">
+                <div class="breakdown-row"><span>个人账户计发月数</span><strong id="pension-divisor-value">—</strong></div>
+                <div class="breakdown-row"><span>基础养老金</span><strong id="pension-basic">—</strong></div>
+                <div class="breakdown-row"><span>个人账户养老金</span><strong id="pension-account">—</strong></div>
+              </div>
+              <p class="note" id="pension-divisor-help">填写出生年月后显示计发月数。</p>
+              <div class="rule"></div>
+              <p class="note">基础养老金＝计发基数 ×（1＋平均缴费指数）÷ 2 × 缴费月数 ÷ 12 × 1%；个人账户养老金＝账户储存额 ÷ 计发月数。</p>
+              <p class="note">仅计算这两部分。建立个人账户前有视同缴费年限等情况时，可能还有按当地办法计算的过渡性养老金；领取资格也需另行核对。</p>
+            </div>
+          </section>
+        </div>
+        <div class="card sources">
+          <p>城市选择覆盖内地省市。自动填入的数据于 <time id="pension-data-updated" datetime="2026-09-30">2026 年 9 月 30 日</time> 核对官方文件，并标注适用年份；暂无核实数据的地区可手动填写。各地数据公布时间不同，退休时的计发基数、个人账户储存额和平均缴费指数可能与当前值不同。</p>
+          <p>公式依据：<a href="https://www.mohrss.gov.cn/fgs/syshehuibaoxianfa/201208/t20120806_28572.html" target="_blank" rel="noopener noreferrer">人力资源社会保障部关于基本养老金的说明及计发月数表</a></p>
+          <p>非整岁退休的计发月数：<a href="https://rsj.sh.gov.cn/tzcjd_17352_17352/20200617/t0035_1377079.html" target="_blank" rel="noopener noreferrer">上海按周岁年龄</a>，<a href="https://chinajob.mohrss.gov.cn/c/2022-01-30/340899.shtml" target="_blank" rel="noopener noreferrer">江苏按下一档年龄</a>；其他地区按相邻整岁表值线性估算，仅用于试算。</p>
+        </div>
+      </section>
+      <section id="resident-panel" aria-label="城乡居民养老金计算（含农村居民）" hidden>
+        <div class="layout">
+          <form class="card input-card" id="resident-calculator" novalidate>
+            <h2 class="card-title">城乡居民养老金</h2>
+            <div class="field">
+              <label for="resident-base">当地每月基础养老金（元）</label>
+              <input id="resident-base" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="按参保并领取待遇的县区填写" required>
+              <p class="field-help">各地标准不同，请填当地当年完整的基础养老金金额。</p>
+            </div>
+            <div class="field">
+              <label for="resident-balance">领取时个人账户储存额（元）</label>
+              <input id="resident-balance" type="number" min="0" step="0.01" inputmode="decimal" placeholder="个人缴费、政府补贴等的累计余额" required>
+              <p class="field-help">账户余额包含个人缴费、政府补贴、集体补助、利息等；填当前余额会低估未来领取额。</p>
+            </div>
+            <div class="field">
+              <label for="resident-bonus">其他每月加发（元）</label>
+              <input id="resident-bonus" type="number" min="0" step="0.01" inputmode="decimal" value="0">
+              <p class="field-help">如长缴年限、高龄等地方加发；若已包含在上面的基础养老金中，保持 0。</p>
+            </div>
+            <button type="submit">计算每月养老金</button>
+            <p class="error" id="resident-error" role="alert"></p>
+          </form>
+
+          <section class="card result-card" aria-live="polite" aria-atomic="true">
+            <div class="result-top">
+              <p class="label">每月城乡居民基本养老金 · 粗略试算</p>
+              <p class="big-age" id="resident-total">—</p>
+              <p class="date" id="resident-status">填写参数后显示结果</p>
+            </div>
+            <div class="result-body">
+              <p class="section-label">计算明细</p>
+              <div class="breakdown">
+                <div class="breakdown-row"><span>当地基础养老金</span><strong id="resident-basic">—</strong></div>
+                <div class="breakdown-row"><span>个人账户养老金</span><strong id="resident-account">—</strong></div>
+                <div class="breakdown-row"><span>其他每月加发</span><strong id="resident-extra">—</strong></div>
+              </div>
+              <div class="rule"></div>
+              <p class="note">每月养老金＝当地基础养老金＋个人账户储存额÷139＋其他每月加发。139 是个人账户养老金计发系数，不代表只领取 139 个月。</p>
+              <p class="note" id="resident-note">按年满 60 岁领取试算；通常需累计缴费满 15 年，制度实施时已接近或达到 60 岁的人员另有规定，具体以当地核定为准。</p>
+            </div>
+          </section>
+        </div>
+        <div class="card sources">
+          <p>适用于城乡居民基本养老保险，包括原农村居民养老保险。各地基础养老金及年限、高龄等加发标准可能不同，请按待遇领取地当年规定填写；职工养老保险请使用上方“职工养老金”。</p>
+          <p>公式依据：<a href="https://www.ndrc.gov.cn/xwdt/ztzl/xxczhjs/ghzc/201605/t20160505_971901_ext.html" target="_blank" rel="noopener noreferrer">国务院关于建立统一的城乡居民基本养老保险制度的意见</a> · <a href="https://shbx.hrss.henan.gov.cn/hnsi/zhengce/cjwtjd/cxjmjbylbx/webinfo/2022/12/1671896668894791.htm" target="_blank" rel="noopener noreferrer">河南省社保中心对 139 个月的说明</a></p>
+        </div>
+      </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="retirement_regions.js"></script>
+  <script src="retirement_bases.js"></script>
+  <script>
+    const categories = {
+      male: { originalAge: 60, startYear: 1965, step: 4, maximumDelay: 36 },
+      "female-worker": { originalAge: 50, startYear: 1975, step: 2, maximumDelay: 60 },
+      "female-manager": { originalAge: 55, startYear: 1970, step: 4, maximumDelay: 36 }
+    };
+
+    function monthNumber(year, month) { return year * 12 + month - 1; }
+    function yearMonth(value) {
+      const year = Math.floor(value / 12);
+      const month = value - year * 12 + 1;
+      return `${year} 年 ${month} 月`;
+    }
+    function monthInputValue(value) {
+      const year = Math.floor(value / 12);
+      const month = value - year * 12 + 1;
+      return `${year}-${String(month).padStart(2, "0")}`;
+    }
+    function parseMonthInput(raw) {
+      const match = /^(\d{4})-(\d{2})$/.exec(raw);
+      if (!match) return null;
+      const year = Number(match[1]);
+      const month = Number(match[2]);
+      return year >= 1900 && year <= 2199 && month >= 1 && month <= 12 ? { year, month, value: monthNumber(year, month) } : null;
+    }
+    function ageText(months) {
+      const years = Math.floor(months / 12);
+      const remaining = months % 12;
+      return remaining ? `${years} 岁 ${remaining} 个月` : `${years} 岁`;
+    }
+    function minimumYears(retirementYear) {
+      if (retirementYear < 2030) return 15;
+      return Math.min(20, 15 + (retirementYear - 2029) * 0.5);
+    }
+    function calculate(birthYear, birthMonth, category) {
+      const rule = categories[category];
+      const born = monthNumber(birthYear, birthMonth);
+      const cohortMonths = born - monthNumber(rule.startYear, 1);
+      const delay = cohortMonths < 0 ? 0 : Math.min(rule.maximumDelay, Math.floor(cohortMonths / rule.step) + 1);
+      const legal = born + rule.originalAge * 12 + delay;
+      const policyApplies = legal >= monthNumber(2025, 1);
+      const earliest = Math.max(legal - 36, born + rule.originalAge * 12);
+      return { born, legal, earliest, latest: legal + 36, delay, ageMonths: rule.originalAge * 12 + delay, policyApplies };
+    }
+
+    const form = document.getElementById("calculator");
+    const ageBirthInput = document.getElementById("birth");
+    const ageCategoryInput = document.getElementById("category");
+    function clearAgeResult() {
+      document.getElementById("legal-age").textContent = "—";
+      document.getElementById("legal-date").textContent = "请选择出生年月";
+      document.getElementById("delay").textContent = "—";
+      document.getElementById("result-body").innerHTML = "";
+    }
+    function render(event) {
+      if (event) event.preventDefault();
+      const raw = ageBirthInput.value;
+      const match = /^(\d{4})-(\d{2})$/.exec(raw);
+      const error = document.getElementById("error");
+      if (!raw && !event) {
+        error.textContent = "";
+        clearAgeResult();
+        return;
+      }
+      if (!match || Number(match[1]) < 1900 || Number(match[1]) > 2099 || Number(match[2]) < 1 || Number(match[2]) > 12) {
+        error.textContent = "请选择有效的出生年月。";
+        clearAgeResult();
+        return;
+      }
+      error.textContent = "";
+      const result = calculate(Number(match[1]), Number(match[2]), ageCategoryInput.value);
+      const retirementYear = Math.floor(result.legal / 12);
+      document.getElementById("legal-age").textContent = ageText(result.ageMonths);
+      document.getElementById("legal-date").textContent = `法定退休时间：${yearMonth(result.legal)}`;
+      document.getElementById("delay").textContent = result.delay ? `比原法定退休年龄延迟 ${result.delay} 个月` : "适用原法定退休年龄";
+      document.getElementById("result-body").innerHTML = result.policyApplies ? `
+        <p class="section-label">弹性退休可选择的时间</p>
+        <div class="flex-grid">
+          <div class="flex-item"><span class="tiny">自愿提前 · 最早</span><strong>${yearMonth(result.earliest)}</strong><span class="age">${ageText(result.earliest - result.born)}</span></div>
+          <div class="flex-item"><span class="tiny">协商延后 · 最晚</span><strong>${yearMonth(result.latest)}</strong><span class="age">${ageText(result.latest - result.born)}</span></div>
+        </div>
+        <p class="note">弹性提前退休须达到所选退休年份的最低缴费年限；弹性延迟退休须与单位协商一致。部分机关、国有企事业单位人员还受专门规定约束。</p>
+        <div class="rule"></div>
+        <div class="minimum"><span>法定退休年份的最低缴费年限</span><strong>${minimumYears(retirementYear)} 年</strong></div>
+        <p class="note">这里显示的是政策规定的最低年限，不代表已经满足领取条件。</p>` : `
+        <div class="old-policy">该出生年月对应的退休时间早于 2025 年 1 月，适用原法定退休年龄；2025 年实施的弹性退休办法不适用。</div>`;
+    }
+    function syncStaffFromAge(event) {
+      render(event);
+      pensionBirthInput.value = ageBirthInput.value;
+      pensionCategoryInput.value = ageCategoryInput.value;
+      updatePensionRetirement();
+    }
+    form.addEventListener("submit", syncStaffFromAge);
+    ageBirthInput.addEventListener("change", () => syncStaffFromAge());
+    ageCategoryInput.addEventListener("change", () => syncStaffFromAge());
+
+    document.querySelectorAll(".tab-link").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".tab-link").forEach(tab => {
+          const selected = tab === button;
+          tab.setAttribute("aria-pressed", String(selected));
+          document.getElementById(tab.dataset.panel).hidden = !selected;
+        });
+        if (button.dataset.panel === "pension-panel" && ageBirthInput.value
+          && (pensionBirthInput.value !== ageBirthInput.value || pensionCategoryInput.value !== ageCategoryInput.value)) {
+          syncStaffFromAge();
+        }
+      });
+    });
+
+    // 仅收录已核对官方原文的企业职工养老金计发数据；按待遇领取地与城市匹配。
+    const pensionOfficialBases = window.retirementBaseConfig.bases;
+    const dataCheckedAt = window.retirementBaseConfig.checkedAt;
+    const dataUpdatedTime = document.getElementById("pension-data-updated");
+    const [checkedYear, checkedMonth, checkedDay] = dataCheckedAt.split("-");
+    dataUpdatedTime.dateTime = dataCheckedAt;
+    dataUpdatedTime.textContent = `${Number(checkedYear)} 年 ${Number(checkedMonth)} 月 ${Number(checkedDay)} 日`;
+    const provinceSelect = document.getElementById("pension-province");
+    const citySelect = document.getElementById("pension-city");
+    const cityField = document.getElementById("pension-city-field");
+    const regionRow = document.getElementById("pension-region-row");
+    const baseInput = document.getElementById("pension-base");
+    const baseSource = document.getElementById("pension-base-source");
+    let filledOfficialBase = null;
+    function clearPensionResult() {
+      document.getElementById("pension-total").textContent = "—";
+      document.getElementById("pension-status").textContent = "填写参数后显示结果";
+      document.getElementById("pension-basic").textContent = "—";
+      document.getElementById("pension-account").textContent = "—";
+      document.getElementById("pension-error").textContent = "";
+    }
+    // 个人账户养老金计发月数表按整岁列示；非整岁退休由待遇领取地核定。
+    const pensionDivisorByAge = {
+      50: 195, 51: 190, 52: 185, 53: 180, 54: 175, 55: 170, 56: 164,
+      57: 158, 58: 152, 59: 145, 60: 139, 61: 132, 62: 125, 63: 117,
+      64: 109, 65: 101, 66: 93, 67: 84, 68: 75, 69: 65, 70: 56
+    };
+    const pensionBirthInput = document.getElementById("pension-birth");
+    const pensionCategoryInput = document.getElementById("pension-category");
+    const pensionRetirementInput = document.getElementById("pension-retirement");
+    const pensionRetirementHelp = document.getElementById("pension-retirement-help");
+    const pensionDivisorValue = document.getElementById("pension-divisor-value");
+    const pensionDivisorHelp = document.getElementById("pension-divisor-help");
+    let pensionDivisorState = null;
+    function updatePensionDivisor() {
+      clearPensionResult();
+      pensionDivisorState = null;
+      pensionDivisorValue.textContent = "—";
+      const birth = parseMonthInput(pensionBirthInput.value);
+      const retirement = parseMonthInput(pensionRetirementInput.value);
+      if (!birth || !retirement) {
+        pensionDivisorHelp.textContent = "填写出生年月后显示计发月数。";
+        return;
+      }
+      const ageMonths = retirement.value - birth.value;
+      if (ageMonths <= 0) {
+        pensionDivisorHelp.textContent = "退休年月须晚于出生年月。";
+        return;
+      }
+      const years = Math.floor(ageMonths / 12);
+      const lower = pensionDivisorByAge[years];
+      const remaining = ageMonths % 12;
+      const upper = remaining ? pensionDivisorByAge[years + 1] : null;
+      if (!lower || (remaining && !upper)) {
+        pensionDivisorHelp.textContent = `${ageText(ageMonths)}不在当前计发月数表范围内；请核对退休年月。`;
+        return;
+      }
+      let value = lower;
+      let estimated = false;
+      let method = "按整岁计发月数表取值";
+      if (remaining && provinceSelect.value === "31") {
+        method = "按上海周岁年龄取值";
+      } else if (remaining && provinceSelect.value === "32") {
+        value = upper;
+        method = "按江苏下一档年龄取值";
+      } else if (remaining) {
+        value = Math.round((lower + (upper - lower) * remaining / 12) * 10) / 10;
+        estimated = true;
+        method = "按相邻整岁表值线性估算";
+      }
+      pensionDivisorState = { value, estimated };
+      pensionDivisorValue.textContent = `${estimated ? "约 " : ""}${value} 个月`;
+      pensionDivisorHelp.textContent = `退休年龄 ${ageText(ageMonths)}，${method}；实际计发月数以待遇领取地核定为准。`;
+    }
+    function updatePensionRetirement() {
+      const birth = parseMonthInput(pensionBirthInput.value);
+      if (!birth || birth.year > 2099) {
+        pensionRetirementInput.value = "";
+        pensionRetirementHelp.textContent = "请选择有效的出生年月。";
+        updatePensionDivisor();
+        return;
+      }
+      const legal = calculate(birth.year, birth.month, pensionCategoryInput.value).legal;
+      pensionRetirementInput.value = monthInputValue(legal);
+      pensionRetirementHelp.textContent = `法定退休时间 ${yearMonth(legal)}；弹性退休可按实际办理年月修改。`;
+      updatePensionDivisor();
+    }
+    function syncAgeFromPension() {
+      ageBirthInput.value = pensionBirthInput.value;
+      ageCategoryInput.value = pensionCategoryInput.value;
+      render();
+      updatePensionRetirement();
+    }
+    pensionBirthInput.addEventListener("change", syncAgeFromPension);
+    pensionCategoryInput.addEventListener("change", syncAgeFromPension);
+    pensionRetirementInput.addEventListener("change", updatePensionDivisor);
+    Object.entries(window.retirementRegions).forEach(([code, region]) => {
+      provinceSelect.add(new Option(region.name, code));
+    });
+    function showBaseSource(record, province, city) {
+      baseSource.replaceChildren();
+      if (!record) {
+        const region = pensionOfficialBases[province];
+        baseSource.textContent = region?.cityNotes?.[city] || region?.note
+          || "此地暂无已核实的计发基数，请按当地官方文件手动填写。";
+        if (region?.inquiry) {
+          const inquiry = document.createElement("a");
+          inquiry.href = region.inquiry.url;
+          inquiry.target = "_blank";
+          inquiry.rel = "noopener noreferrer";
+          inquiry.textContent = region.inquiry.label;
+          baseSource.append(" ", inquiry);
+        }
+        return;
+      }
+      baseSource.append(`${record.year} 年官方数据：${record.base} 元/月。${record.detail ? `${record.detail}。` : ""} `);
+      const source = document.createElement("a");
+      source.href = record.source;
+      source.target = "_blank";
+      source.rel = "noopener noreferrer";
+      source.textContent = record.valueSource ? "查看计发办法" : "查看官方原文";
+      baseSource.append(source);
+      if (record.valueSource) {
+        const valueSource = document.createElement("a");
+        valueSource.href = record.valueSource;
+        valueSource.target = "_blank";
+        valueSource.rel = "noopener noreferrer";
+        valueSource.textContent = "查看平均工资";
+        baseSource.append(" · ", valueSource);
+      }
+      baseSource.append("；用于当前公式试算，未来退休年份可能变化。");
+    }
+    function updatePensionBase() {
+      clearPensionResult();
+      const province = provinceSelect.value;
+      const city = citySelect.value;
+      if (!province || !city) {
+        filledOfficialBase = null;
+        baseInput.value = "";
+        baseSource.textContent = province ? "请选择城市后查看适用数据。" : "计发基数由待遇领取地和退休年份确定；当前数据仅用于试算。";
+        return;
+      }
+      const region = pensionOfficialBases[province];
+      const cityBases = region?.cities;
+      const record = cityBases && Object.prototype.hasOwnProperty.call(cityBases, city)
+        ? cityBases[city] : region?.default;
+      filledOfficialBase = record ? String(record.base) : null;
+      baseInput.value = filledOfficialBase || "";
+      showBaseSource(record, province, city);
+    }
+    provinceSelect.addEventListener("change", () => {
+      citySelect.replaceChildren(new Option("请选择城市", ""));
+      const region = window.retirementRegions[provinceSelect.value];
+      cityField.hidden = !region;
+      regionRow.dataset.hasCity = String(Boolean(region));
+      citySelect.disabled = !region;
+      if (region) region.cities.forEach(city => citySelect.add(new Option(city.name, city.code)));
+      updatePensionBase();
+      updatePensionDivisor();
+    });
+    citySelect.addEventListener("change", updatePensionBase);
+    baseInput.addEventListener("input", () => {
+      clearPensionResult();
+      if (filledOfficialBase !== null && baseInput.value !== filledOfficialBase) {
+        filledOfficialBase = null;
+        baseSource.textContent = "已手动修改计发基数；请核对该数值的适用年份和当地政策。";
+      }
+    });
+    ["pension-index", "pension-months", "pension-balance"].forEach(id => {
+      document.getElementById(id).addEventListener("input", clearPensionResult);
+    });
+
+    const indexInput = document.getElementById("pension-index");
+    const indexPreset = document.getElementById("pension-index-preset");
+    const indexCustomField = document.getElementById("pension-index-custom-field");
+    const indexHelp = document.getElementById("pension-index-help");
+    indexPreset.addEventListener("change", () => {
+      indexCustomField.hidden = indexPreset.value !== "custom";
+      indexInput.value = indexPreset.value === "custom" ? "" : indexPreset.value;
+      indexHelp.textContent = indexPreset.value === "custom"
+        ? "请填写实际平均缴费指数。"
+        : "按常用缴费档次粗略估算；历年缴费档次不同，以实际记录计算的平均指数为准。";
+      clearPensionResult();
+    });
+    indexInput.addEventListener("input", () => {
+      indexHelp.textContent = "已手动填写平均缴费指数；请按缴费记录核对。";
+    });
+
+    function calculatePension(base, index, months, balance, divisor) {
+      const basic = Math.round(base * (1 + index) / 2 * (months / 12) * 0.01 * 100) / 100;
+      const account = Math.round(balance / divisor * 100) / 100;
+      return { basic, account, total: Math.round((basic + account) * 100) / 100 };
+    }
+    const money = value => new Intl.NumberFormat("zh-CN", { style: "currency", currency: "CNY" }).format(value);
+    document.getElementById("pension-calculator").addEventListener("submit", event => {
+      event.preventDefault();
+      const birth = parseMonthInput(pensionBirthInput.value);
+      const retirement = parseMonthInput(pensionRetirementInput.value);
+      const datesValid = birth && birth.year <= 2099 && retirement && retirement.value > birth.value;
+      const ids = ["pension-base", "pension-index", "pension-months", "pension-balance"];
+      const inputs = ids.map(id => document.getElementById(id).value.trim());
+      const values = inputs.map(Number);
+      const [base, index, months, balance] = values;
+      const divisor = pensionDivisorState?.value;
+      const valid = inputs.every(value => value !== "") && values.every(Number.isFinite)
+        && base > 0 && index >= 0 && months >= 0 && Number.isInteger(months)
+        && balance >= 0;
+      const error = document.getElementById("pension-error");
+      if (!datesValid || !divisor || !valid) {
+        error.textContent = !datesValid ? "请先填写有效的出生年月和退休年月。"
+          : !divisor ? "无法按当前计发月数表估算该退休年龄，请核对退休年月。"
+          : "请完整填写有效的非负数；缴费月数需为整数。";
+        document.getElementById("pension-total").textContent = "—";
+        document.getElementById("pension-status").textContent = "请检查填写的参数";
+        document.getElementById("pension-basic").textContent = "—";
+        document.getElementById("pension-account").textContent = "—";
+        return;
+      }
+      error.textContent = "";
+      const result = calculatePension(base, index, months, balance, divisor);
+      document.getElementById("pension-total").textContent = money(result.total);
+      document.getElementById("pension-status").textContent = pensionDivisorState.estimated
+        ? "按输入参数试算；非整岁计发月数为估算值" : "按输入参数计算，仅供公式核对";
+      document.getElementById("pension-basic").textContent = money(result.basic);
+      document.getElementById("pension-account").textContent = money(result.account);
+    });
+
+    function clearResidentResult() {
+      document.getElementById("resident-total").textContent = "—";
+      document.getElementById("resident-status").textContent = "填写参数后显示结果";
+      document.getElementById("resident-basic").textContent = "—";
+      document.getElementById("resident-account").textContent = "—";
+      document.getElementById("resident-extra").textContent = "—";
+      document.getElementById("resident-error").textContent = "";
+      document.getElementById("resident-note").textContent = "按年满 60 岁领取试算；通常需累计缴费满 15 年，制度实施时已接近或达到 60 岁的人员另有规定，具体以当地核定为准。";
+    }
+    ["resident-base", "resident-balance", "resident-bonus"].forEach(id => {
+      document.getElementById(id).addEventListener("input", clearResidentResult);
+    });
+    function residentNumber(id) {
+      const raw = document.getElementById(id).value.trim();
+      return raw === "" ? NaN : Number(raw);
+    }
+    document.getElementById("resident-calculator").addEventListener("submit", event => {
+      event.preventDefault();
+      const basic = residentNumber("resident-base");
+      const extra = residentNumber("resident-bonus");
+      const balance = residentNumber("resident-balance");
+      const valid = Number.isFinite(basic) && basic > 0 && Number.isFinite(extra) && extra >= 0
+        && Number.isFinite(balance) && balance >= 0;
+      if (!valid) {
+        clearResidentResult();
+        document.getElementById("resident-status").textContent = "请检查填写的参数";
+        document.getElementById("resident-error").textContent = "请填写大于 0 的当地基础养老金，以及有效的个人账户余额和其他加发金额。";
+        return;
+      }
+      const account = Math.round(balance / 139 * 100) / 100;
+      const total = Math.round((basic + account + extra) * 100) / 100;
+      document.getElementById("resident-total").textContent = money(total);
+      document.getElementById("resident-status").textContent = "按输入账户余额试算";
+      document.getElementById("resident-basic").textContent = money(basic);
+      document.getElementById("resident-account").textContent = money(account);
+      document.getElementById("resident-extra").textContent = money(extra);
+      document.getElementById("resident-error").textContent = "";
+    });
+    if (ageBirthInput.value) syncStaffFromAge();
+    else if (pensionBirthInput.value) syncAgeFromPension();
+    else render();
+  </script>
+</body>
+</html>
